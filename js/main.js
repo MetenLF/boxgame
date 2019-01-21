@@ -81,10 +81,9 @@ var gameData = {
 
 // START AUX FUNCTIONS ---------------------------------------------------------
 
-function showNewElement (elementId) {
+function showNewElement(elementId) {
     // TO-DO: animation
     document.getElementById(elementId).classList.remove('invisible-stuff');
-
 }
 
 // END AUX FUNCTIONS -----------------------------------------------------------
@@ -93,10 +92,10 @@ function showNewElement (elementId) {
 // START INTERFACE TRIGGERED FUNCTIONS -----------------------------------------
 
 // small box maker button
-function makeSmallBox (){
+function makeSmallBox() {
     // add a box and show on the interface
     document.getElementById('number-small-boxes').innerHTML = ++gameData.counters.numSmallBoxes;
-    
+
     // show counter if there were no boxes made
     if (gameData.counters.numSmallBoxes == 1) {
         showNewElement('statistics-card');
@@ -106,13 +105,12 @@ function makeSmallBox (){
     if (gameData.counters.numSmallBoxes == 10) {
         showNewElement('box-factory');
     }
-
 }
 
 // hire small box maker button
-function hireBoxMaker () {
+function hireBoxMaker() {
     document.getElementById('number-box-makers').innerHTML = ++gameData.workers.boxMakers.amount;
-    
+
     if (gameData.workers.boxMakers.amount == 1) {
         showNewElement('counter-box-makers');
     }
@@ -125,8 +123,7 @@ function hireBoxMaker () {
 }
 
 // do not click thing
-function doNotClick (thisElement) {
-
+function doNotClick(thisElement) {
     var arrTexts = [
         'Why did you click here?',
         'You\'re not supposed to click again.',
@@ -142,7 +139,6 @@ function doNotClick (thisElement) {
 
     if (gameData.etc.doNot < arrTexts.length) {
         thisElement.innerHTML = arrTexts[gameData.etc.doNot++];
-
     } else if (gameData.etc.doNot++ == arrTexts.length) {
         // $('#jups').addClass('jups');
         thisElement.classList.remove('btn');
@@ -158,11 +154,10 @@ function doNotClick (thisElement) {
     } else {
         // do nothing
         thisElement.innerHTML = '';
-    }   
-
+    }
 }
 
-function counterUpdater () {
+function counterUpdater() {
     // workers add 1 box per second (1/100 every 10ms)
     gameData.counters.numSmallBoxes += (gameData.workers.boxMakers.amount * 1) / 100;
 
@@ -170,31 +165,27 @@ function counterUpdater () {
     document.getElementById('number-small-boxes').innerHTML = Math.floor(gameData.counters.numSmallBoxes);
 }
 
-function priceUpdater () {
-
+function priceUpdater() {
     // Update the workers with their current prices
     document.getElementById('btn-hire-box-maker').innerHTML = 'Hire box maker - cost: ' + gameData.workers.boxMakers.cost;
-
 }
 
-function interfaceIO () {
-
+function interfaceIO() {
     // Enable/disable the worker buttons based on our boxes
     if (gameData.workers.boxMakers.cost > gameData.counters.numSmallBoxes) {
         document.getElementById('btn-hire-box-maker').disabled = true;
     } else {
         document.getElementById('btn-hire-box-maker').disabled = false;
     }
-
 }
 
-function saveTheGame () {
+function saveTheGame() {
     localStorage.setItem('boxGameSave', JSON.stringify(gameData));
     // TO-DO: turn this into an alert or toast
     alert('Game saved!');
 }
 
-function loadTheGame () {
+function loadTheGame() {
     var savegame = JSON.parse(localStorage.getItem('boxGameSave'));
     if (savegame) {
         gameData = savegame;
@@ -217,12 +208,10 @@ function deleteTheGame() {
 // START INTERVAL FUNCTION -----------------------------------------------------
 
 // Run UI update code every 10ms
-window.setInterval(function() {
-    
+window.setInterval(function () {
     counterUpdater();
     priceUpdater();
     interfaceIO();
-    
 }, 10);
 
 // END INTERVAL FUNCTION -------------------------------------------------------
@@ -232,6 +221,3 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("ready!");
     document.body.classList.remove('invisible-stuff');
 });
-
-
-
