@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Box</title>
+
+    <!-- font awesome because I like the icons -->
+    <script src="https://use.fontawesome.com/ca6165f7df.js"></script>
+    <!-- bootstrap because I like it kinda -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+
+    </head>
+    <body>
+        <div id="jups"></div>
+        <!-- top menu if I ever feel like to use this -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand text-warning">
+                <i class="fa fa-cube"></i >Boxgame
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <button id="do-not-click" class="btn btn-sm btn-outline-dark" onclick="doNotClick(this)">Do not click here.</button>
+                    </li>
+                </ul>
+            </div>
+            <span class="navbar-text text-warning">
+                A tiny game about boxing.
+            </span>
+        </nav>
+
+        <!-- spacer -->
+        <!-- <div class="container-fluid my-5 py-5"></div>
+        <div class="container-fluid my-5"></div> -->
+
+        <!-- large layout why not -->
+        <!-- Lay it out like universal paperclips. Start from left, go to the right. Simple columning should do the trick for now.-->
+        <main id="main-container" class="container-fluid">
+            <div class="row">
+                <!-- place buttons here -->
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <button id="make-small-boxes" type="button" class="btn btn-block btn-primary" onclick="makeSmallBox()">Make a small box</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="box-factory" class="row mt-3 invisible-stuff">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Box Factory</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        In the factory, boxes are produced automatically.
+                                    </p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <button id="btn-hire-box-maker" class="btn btn-success" onclick="hireBoxMaker()">Hire box maker - cost: <span>10</span></button>
+                                        <br>
+                                        <small>A box maker will make boxes for you</small>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <!-- WIP -->
+                                        <button class="btn btn-warning" disabled>Hire box baker - cost: <span>35</span></button>
+                                        <br>
+                                        <small>A box baker will... bake boxes for you?</small>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <!-- WIP -->
+                                        <button class="btn btn-danger" disabled>Hire pox waker - cost: <span>100</span></button>
+                                        <br>
+                                        <small>A pox waker will... now hold on a second.</small>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- place progress bars here? Sounds fun. -->
+                <div class="col-4">
+                    <div class="card" style="width: 18rem;">
+                        <!-- <img class="card-img-top" src="img/box-cardboard.jpg" alt="Box"> -->
+                        <figure class="figure card-img-top">
+                            <img src="img/box-cardboard.jpg" class="figure-img img-fluid rounded" alt="Box">
+                            <figcaption class="figure-caption ml-4">- A completely ordinary box.</figcaption>
+                        </figure>
+                        <div id="statistics-card" class="card-body invisible-stuff">
+                            <h4 class="card-title">Statistics</h4>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li id="counter-small-boxes" class="list-group-item invisible-stuff">
+                                <p class="card-text">
+                                    <b>Small boxes:</b> <span id="number-small-boxes" class="float-right">0</span>
+                                </p>
+                            </li>
+                            <li id="counter-box-makers" class="list-group-item invisible-stuff">
+                                <p class="card-text">
+                                    <b>Small box makers:</b> <span id="number-box-makers" class="float-right"></span>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+        </main>
+
+
+        <!-- jquery and bootstrap stuff because I'm a framework dependent noob -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" 
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" 
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" 
+        crossorigin="anonymous"></script>
+        <!-- other imports -->
+
+        <!-- my own stuff -->
+        <script src="js/main.js"></script>
+        
+  </body>
+</html>
