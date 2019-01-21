@@ -15,9 +15,15 @@ PRIORITY: make some testing utils
 Plans (new!):
 OK- rewrite this entire crap in vanilla javascript
 
-- fucking start a repo
+OK- fucking start a repo
 
-- rework game data variable so I can work better later on the save and load
+OK- rework game data variables into a huge object so I can work better later on the save and load
+
+- save game and load game
+. save game
+. load game
+. delete save
+. buttons to do these things
 
 - finish game's core features:
 . counters
@@ -34,20 +40,41 @@ OK- rewrite this entire crap in vanilla javascript
 
 // START GLOBAL VARS -----------------------------------------------------------
 // Basic variable declaration - keep track of how many of each item we currently own, and how much the new ones should cost.
+/*
+Data structure should be splitting stuff into what is owned by what.
+*/
+var gameData = {
+    'counters': {
+        'numSmallBoxes': 0,
+        'numBakedBoxes': 0,
+        'numPoxWaked': 0
+    },
+    'workers': {
+        'boxMakers': {
+            'amount': 0,
+            'cost': 10,
+            'costIncrement': 1.1
+        },
+        'boxBakers': {
+            'amount': 0,
+            'cost': 25,
+            'costIncrement': 1.3
+        },
+        'smallBoxMakers': {
+            'amount': 0,
+            'cost': 100,
+            'costIncrement': 1.6
+        }
+    },
+    'milestones': {
 
-// TO-DO: put all in an object
-// boxes
-var GnumSmallBoxes = 0;
+    },
+    'etc': {
+        'doNot': 0,
+        'moreEvilDoNot': 0
 
-// workers
-var GnumSmallBoxMakers = 0;
-
-// costs
-var GsmallBoxMakerCost = 10;
-
-// etc
-// don't click counter
-var GdoNot = 0;
+    }
+}
 
 
 // END GLOBAL VARS -------------------------------------------------------------
@@ -56,8 +83,7 @@ var GdoNot = 0;
 
 function showNewElement (elementId) {
     // TO-DO: animation
-    var element = document.getElementById(elementId);
-    element.classList.remove('invisible-stuff');
+    document.getElementById(elementId).classList.remove('invisible-stuff');
 
 }
 
@@ -69,14 +95,15 @@ function showNewElement (elementId) {
 // small box maker button
 function makeSmallBox (){
     // add a box and show on the interface
-    document.getElementById('number-small-boxes').innerHTML = ++GnumSmallBoxes;
+    document.getElementById('number-small-boxes').innerHTML = ++gameData.counters.numSmallBoxes;
     
     // show counter if there were no boxes made
-    if (GnumSmallBoxes == 1) {
+    if (gameData.counters.numSmallBoxes == 1) {
         showNewElement('statistics-card');
         showNewElement('counter-small-boxes');
     }
-    if (GnumSmallBoxes == 10) {
+
+    if (gameData.counters.numSmallBoxes == 10) {
         showNewElement('box-factory');
     }
 
@@ -84,21 +111,21 @@ function makeSmallBox (){
 
 // hire small box maker button
 function hireBoxMaker () {
-    document.getElementById('number-box-makers').innerHTML = ++GnumSmallBoxMakers;
+    document.getElementById('number-box-makers').innerHTML = ++gameData.workers.boxMakers.amount;
     
-    if (GnumSmallBoxMakers == 1) {
+    if (gameData.workers.boxMakers.amount == 1) {
         showNewElement('counter-box-makers');
     }
 
     // Deduct cost
-    GnumSmallBoxes -= GsmallBoxMakerCost;
+    gameData.counters.numSmallBoxes -= gameData.workers.boxMakers.cost;
 
     // Increase cost for the next one, using Math.ceil() to round up
-    GsmallBoxMakerCost = Math.ceil(GsmallBoxMakerCost * 1.1);
+    gameData.workers.boxMakers.cost = Math.ceil(gameData.workers.boxMakers.cost * gameData.workers.boxMakers.costIncrement);
 }
 
 // do not click thing
-function doNotClick (domElement) {
+function doNotClick (thisElement) {
 
     var arrTexts = [
         'Why did you click here?',
@@ -113,26 +140,76 @@ function doNotClick (domElement) {
         'This is your last warning.'
     ];
 
-    if (GdoNot < arrTexts.length) {
-        domElement.innerHTML = arrTexts[GdoNot++];
+    if (gameData.etc.doNot < arrTexts.length) {
+        thisElement.innerHTML = arrTexts[gameData.etc.doNot++];
 
-    } else if (GdoNot++ == arrTexts.length) {
+    } else if (gameData.etc.doNot++ == arrTexts.length) {
         // $('#jups').addClass('jups');
-        domElement.classList.remove('btn');
-        domElement.classList.remove('btn-outline-dark');
-        domElement.innerHTML = '';
-        domElement.classList.add('jups');
+        thisElement.classList.remove('btn');
+        thisElement.classList.remove('btn-outline-dark');
+        thisElement.innerHTML = '';
+        thisElement.classList.add('jups');
         setTimeout(function () {
-            domElement.classList.add('btn');
-            domElement.classList.add('btn-outline-dark');
-            domElement.classList.remove('jups');
-            domElement.innerHTML = 'I hope you are happy with yourself.';
+            thisElement.classList.add('btn');
+            thisElement.classList.add('btn-outline-dark');
+            thisElement.classList.remove('jups');
+            thisElement.innerHTML = 'I hope you are happy with yourself.';
         }, 3000);
     } else {
         // do nothing
-        domElement.innerHTML = '';
+        thisElement.innerHTML = '';
     }   
 
+}
+
+function counterUpdater () {
+    // workers add 1 box per second (1/100 every 10ms)
+    gameData.counters.numSmallBoxes += (gameData.workers.boxMakers.amount * 1) / 100;
+
+    // Update the text showing how many boxes we have, using Math.floor() to round down
+    document.getElementById('number-small-boxes').innerHTML = Math.floor(gameData.counters.numSmallBoxes);
+}
+
+function priceUpdater () {
+
+    // Update the workers with their current prices
+    document.getElementById('btn-hire-box-maker').innerHTML = 'Hire box maker - cost: ' + gameData.workers.boxMakers.cost;
+
+}
+
+function interfaceIO () {
+
+    // Enable/disable the worker buttons based on our boxes
+    if (gameData.workers.boxMakers.cost > gameData.counters.numSmallBoxes) {
+        document.getElementById('btn-hire-box-maker').disabled = true;
+    } else {
+        document.getElementById('btn-hire-box-maker').disabled = false;
+    }
+
+}
+
+function saveTheGame () {
+    localStorage.setItem('boxGameSave', JSON.stringify(gameData));
+    // TO-DO: turn this into an alert or toast
+    alert('Game saved!');
+}
+
+function loadTheGame () {
+    var savegame = JSON.parse(localStorage.getItem('boxGameSave'));
+    if (savegame) {
+        gameData = savegame;
+    } else {
+        // TO-DO: turn this into an alert or toast
+        alert('No save game found :(');
+    }
+}
+
+function deleteTheGame() {
+    var areYouSure = confirm('Are you sure you want to delete your save?')
+    if (areYouSure) {
+        localStorage.removeItem('boxGameSave');
+        location.reload();
+    }
 }
 
 // END INTERFACE TRIGGERED FUNCTIONS -------------------------------------------
@@ -141,29 +218,19 @@ function doNotClick (domElement) {
 
 // Run UI update code every 10ms
 window.setInterval(function() {
-    // workers add 1 box per second (1/100 every 10ms)
-    GnumSmallBoxes += (GnumSmallBoxMakers * 1) / 100;
-
-    // Update the text showing how many boxes we have, using Math.floor() to round down
-    document.getElementById('number-small-boxes').innerHTML = Math.floor(GnumSmallBoxes);
-
-    // Update the workers with their current prices
-    document.getElementById('btn-hire-box-maker').innerHTML = 'Hire box maker - cost: ' + GsmallBoxMakerCost;
-
-    // Enable/disable the worker buttons based on our boxes
-    if (GsmallBoxMakerCost > GnumSmallBoxes) {
-        document.getElementById('btn-hire-box-maker').disabled = true;
-    } else {
-        document.getElementById('btn-hire-box-maker').disabled = false;
-
-    }
+    
+    counterUpdater();
+    priceUpdater();
+    interfaceIO();
+    
 }, 10);
 
 // END INTERVAL FUNCTION -------------------------------------------------------
 
 // YE POOR LOAD FUNCTION -------------------------------------------------------
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener("DOMContentLoaded", function () {
     console.log("ready!");
+    document.body.classList.remove('invisible-stuff');
 });
 
 

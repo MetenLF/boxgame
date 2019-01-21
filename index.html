@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/styles.css">
 
     </head>
-    <body>
+    <body class="invisible-stuff">
         <div id="jups"></div>
         <!-- top menu if I ever feel like to use this -->
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -33,9 +33,20 @@
                     </li>
                 </ul>
             </div>
-            <span class="navbar-text text-warning">
-                A tiny game about boxing.
-            </span>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-warning" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        A tiny game about boxing.
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <button class="dropdown-item" onclick="saveTheGame()">Save game</button>
+                        <button class="dropdown-item" onclick="loadTheGame()">Load game</button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item text-danger" onclick="deleteTheGame()"><i class="fa fa-warning"></i> Delete save</button>
+                    </div>
+                </li>
+            </ul>
         </nav>
 
         <!-- spacer -->
