@@ -19,6 +19,10 @@ OK- fucking start a repo
 
 OK- rework game data variables into a huge object so I can work better later on the save and load
 
+- make game autoload when page loads
+
+- make sure interface is automatically updated with that (logic rework)
+
 - save game and load game
 . save game
 . load game
@@ -60,7 +64,7 @@ var gameData = {
             'cost': 25,
             'costIncrement': 1.3
         },
-        'smallBoxMakers': {
+        'poxWakers': {
             'amount': 0,
             'cost': 100,
             'costIncrement': 1.6
@@ -93,27 +97,13 @@ function showNewElement(elementId) {
 
 // small box maker button
 function makeSmallBox() {
-    // add a box and show on the interface
-    document.getElementById('number-small-boxes').innerHTML = ++gameData.counters.numSmallBoxes;
-
-    // show counter if there were no boxes made
-    if (gameData.counters.numSmallBoxes == 1) {
-        showNewElement('statistics-card');
-        showNewElement('counter-small-boxes');
-    }
-
-    if (gameData.counters.numSmallBoxes == 10) {
-        showNewElement('box-factory');
-    }
+  // add a box and show on the interface
+  document.getElementById('number-small-boxes').innerHTML = ++gameData.counters.numSmallBoxes;
 }
 
 // hire small box maker button
 function hireBoxMaker() {
-    document.getElementById('number-box-makers').innerHTML = ++gameData.workers.boxMakers.amount;
-
-    if (gameData.workers.boxMakers.amount == 1) {
-        showNewElement('counter-box-makers');
-    }
+    ++gameData.workers.boxMakers.amount;
 
     // Deduct cost
     gameData.counters.numSmallBoxes -= gameData.workers.boxMakers.cost;
@@ -157,41 +147,24 @@ function doNotClick(thisElement) {
     }
 }
 
-function counterUpdater() {
-    // workers add 1 box per second (1/100 every 10ms)
-    gameData.counters.numSmallBoxes += (gameData.workers.boxMakers.amount * 1) / 100;
-
-    // Update the text showing how many boxes we have, using Math.floor() to round down
-    document.getElementById('number-small-boxes').innerHTML = Math.floor(gameData.counters.numSmallBoxes);
-}
-
-function priceUpdater() {
-    // Update the workers with their current prices
-    document.getElementById('btn-hire-box-maker').innerHTML = 'Hire box maker - cost: ' + gameData.workers.boxMakers.cost;
-}
-
-function interfaceIO() {
-    // Enable/disable the worker buttons based on our boxes
-    if (gameData.workers.boxMakers.cost > gameData.counters.numSmallBoxes) {
-        document.getElementById('btn-hire-box-maker').disabled = true;
-    } else {
-        document.getElementById('btn-hire-box-maker').disabled = false;
-    }
-}
-
+// functions that save, load and delete the game
 function saveTheGame() {
     localStorage.setItem('boxGameSave', JSON.stringify(gameData));
     // TO-DO: turn this into an alert or toast
     alert('Game saved!');
 }
 
-function loadTheGame() {
+function loadTheGame(silent) {
     var savegame = JSON.parse(localStorage.getItem('boxGameSave'));
     if (savegame) {
         gameData = savegame;
     } else {
+        // silent is used when the game autoloads so no annoying alert on page load
         // TO-DO: turn this into an alert or toast
-        alert('No save game found :(');
+        if (!silent) {
+            alert('No save game found :(');
+            
+        }
     }
 }
 
@@ -205,19 +178,78 @@ function deleteTheGame() {
 
 // END INTERFACE TRIGGERED FUNCTIONS -------------------------------------------
 
+// START INTERVAL MANAGERS -----------------------------------------------------
+
+function counterUpdater() {
+  // workers add 1 box per second (1/100 every 10ms)
+  gameData.counters.numSmallBoxes += (gameData.workers.boxMakers.amount * 1) / 100;
+
+  // Update the text showing how many boxes we have, using Math.floor() to round down
+  document.getElementById('number-small-boxes').innerHTML = Math.floor(
+    gameData.counters.numSmallBoxes
+  );
+
+  document.getElementById('number-box-makers').innerHTML = gameData.workers.boxMakers.amount;
+
+}
+
+function priceUpdater() {
+  // Update the workers with their current prices
+  document.getElementById('btn-hire-box-maker').innerHTML =
+    'Hire box maker - cost: ' + gameData.workers.boxMakers.cost;
+}
+
+function interfaceIO() {
+  // Enable/disable the worker buttons based on our boxes
+  if (gameData.workers.boxMakers.cost > gameData.counters.numSmallBoxes) {
+    document.getElementById('btn-hire-box-maker').disabled = true;
+  } else {
+    document.getElementById('btn-hire-box-maker').disabled = false;
+  }
+}
+
+function interfaceDisplayer() {
+
+  // show counter if any boxes were made
+  if (gameData.counters.numSmallBoxes >= 1) {
+    showNewElement('statistics-card');
+    showNewElement('counter-small-boxes');
+  }
+
+  // show factory if we have at least 10 boxes
+  if (gameData.counters.numSmallBoxes >= 10) {
+    showNewElement('box-factory');
+  }
+
+  if (gameData.workers.boxMakers.amount >= 1) {
+    showNewElement('counter-box-makers');
+  }
+
+  // example fucky milestone
+  if (gameData.counters.numSmallBoxes >= 9000) {
+    // don't forget to think about this
+  }
+    
+}
+
+
+// END INTERVAL MANAGERS -------------------------------------------------------
+
 // START INTERVAL FUNCTION -----------------------------------------------------
 
 // Run UI update code every 10ms
 window.setInterval(function () {
-    counterUpdater();
-    priceUpdater();
-    interfaceIO();
+  counterUpdater();
+  priceUpdater();
+  interfaceIO();
+  interfaceDisplayer()
 }, 10);
 
 // END INTERVAL FUNCTION -------------------------------------------------------
 
 // YE POOR LOAD FUNCTION -------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("ready!");
-    document.body.classList.remove('invisible-stuff');
+  console.log("ready!");
+  loadTheGame(true);
+  document.body.classList.remove('invisible-stuff');
 });
