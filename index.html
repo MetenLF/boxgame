@@ -81,20 +81,18 @@
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <!-- <button id="btn-hire-box-maker" class="btn btn-success" onclick="hireBoxMaker()">Hire box maker - cost: <span>10</span></button> -->
                                         <button id="btn-hire-box-maker" class="btn btn-success" onclick="hireWorker('boxMakers')">Hire box maker - cost: <span>10</span></button>
                                         <br>
                                         <small>A box maker will make boxes for you</small>
                                     </li>
-                                    <li class="list-group-item">
-                                        <!-- WIP -->
-                                        <button class="btn btn-warning" disabled>Hire box baker - cost: <span>35</span></button>
+                                    <li id="li-hire-box-baker" class="list-group-item invisible-stuff">
+                                        <button id="btn-hire-box-baker" class="btn btn-warning" onclick="hireWorker('boxBakers')">Hire box baker - cost: <span>25</span></button>
                                         <br>
                                         <small>A box baker will... bake boxes for you?</small>
                                     </li>
-                                    <li class="list-group-item">
+                                    <li id="li-hire-pox-waker" class="list-group-item invisible-stuff">
                                         <!-- WIP -->
-                                        <button class="btn btn-danger" disabled>Hire pox waker - cost: <span>100</span></button>
+                                        <button id="btn-hire-box-baker" class="btn btn-danger" disabled>Hire pox waker - cost: <span>100</span></button>
                                         <br>
                                         <small>A pox waker will... now hold on a second.</small>
                                     </li>
@@ -116,7 +114,7 @@
                             <h4 class="card-title">Statistics</h4>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li id="counter-small-boxes" class="list-group-item invisible-stuff">
+                            <li id="counter-small-boxes" class="list-group-item list-group-item-success invisible-stuff">
                                 <p class="card-text">
                                     <b>Small boxes:</b> <span id="number-small-boxes" class="float-right">0</span>
                                 </p>
@@ -124,6 +122,16 @@
                             <li id="counter-box-makers" class="list-group-item invisible-stuff">
                                 <p class="card-text">
                                     <b>Small box makers:</b> <span id="number-box-makers" class="float-right"></span>
+                                </p>
+                            </li>
+                            <li id="counter-baked-boxes" class="list-group-item list-group-item-warning invisible-stuff">
+                                <p class="card-text">
+                                    <b>Baked boxes:</b> <span id="number-baked-boxes" class="float-right">0</span>
+                                </p>
+                            </li>
+                            <li id="counter-box-bakers" class="list-group-item invisible-stuff">
+                                <p class="card-text">
+                                    <b>Box bakers:</b> <span id="number-box-bakers" class="float-right"></span>
                                 </p>
                             </li>
                         </ul>

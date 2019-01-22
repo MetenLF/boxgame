@@ -22,7 +22,7 @@ TECHNICALLY OK WILL BE DEVELOPED LATER- Make an achievements object
 
 OK- make the hire box maker function a more versatile and global worker hire function
 
-- Finally implement box baker and the baked boxes
+OK- Finally implement box baker and the baked boxes
 
 - finish game's core features:
 . counters
@@ -46,66 +46,90 @@ OK- make the hire box maker function a more versatile and global worker hire fun
 Data structure should be splitting stuff into what is owned by what.
 */
 var gameData = {
-  'counters': {
-    'numSmallBoxes': 0,
-    'numBakedBoxes': 0,
-    'numPoxWaked': 0
+  counters: {
+    numSmallBoxes: 0,
+    numBakedBoxes: 0,
+    numPoxWaked: 0
   },
-  'workers': {
-    'boxMakers': {
-      'amount': 0,
-      'cost': 10,
-      'costIncrement': 1.1
+  workers: {
+    boxMakers: {
+      amount: 0,
+      cost: 10,
+      costIncrement: 1.1
     },
-    'boxBakers': {
-      'amount': 0,
-      'cost': 25,
-      'costIncrement': 1.3
+    boxBakers: {
+      amount: 0,
+      cost: 25,
+      costIncrement: 1.3
     },
-    'poxWakers': {
-      'amount': 0,
-      'cost': 100,
-      'costIncrement': 1.6
+    poxWakers: {
+      amount: 0,
+      cost: 100,
+      costIncrement: 1.6
     }
   },
-  'milestones': [
+  milestones: [
     {
-      'name': 'boxCounter',
-      'triggered': false,
-      'condition': {
-        'resource': 'gameData.counters.numSmallBoxes',
-        'comparison': '>=',
-        'threshold': 1
-      } 
-    },
-    {
-      'name': 'boxFactory',
-      'triggered': false,
-      'condition': {
-        'resource': 'gameData.counters.numSmallBoxes',
-        'comparison': '>=',
-        'threshold': 10
+      name: 'boxCounter',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numSmallBoxes',
+        comparison: '>=',
+        threshold: 1
       }
     },
     {
-      'name': 'smallBoxMaker',
-      'triggered': false,
-      'condition': {
-        'resource': 'gameData.workers.boxMakers.amount',
-        'comparison': '>=',
-        'threshold': 1
+      name: 'boxFactory',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numSmallBoxes',
+        comparison: '>=',
+        threshold: 10
+      }
+    },
+    {
+      name: 'smallBoxMaker',
+      triggered: false,
+      condition: {
+        resource: 'gameData.workers.boxMakers.amount',
+        comparison: '>=',
+        threshold: 1
+      }
+    },
+    {
+      name: 'boxBakerButton',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numSmallBoxes',
+        comparison: '>=',
+        threshold: 25
+      }
+    },
+    {
+      name: 'boxBakerCounter',
+      triggered: false,
+      condition: {
+        resource: 'gameData.workers.boxBakers.amount',
+        comparison: '>=',
+        threshold: 1
+      }
+    },
+    {
+      name: 'bakedBoxCounter',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numBakedBoxes',
+        comparison: '>=',
+        threshold: 1
       }
     }
   ],
-  'achievements': {
-
-  },
-  'etc': {
-    'doNot': 0,
-    'moreEvilDoNot': 0
-
+  achievements: {},
+  etc: {
+    doNot: 0,
+    moreEvilDoNot: 0
   }
-}
+};
 
 
 // END GLOBAL VARS -------------------------------------------------------------
@@ -210,28 +234,45 @@ function deleteTheGame() {
 function counterUpdater() {
   // workers add 1 box per second (1/100 every 10ms)
   gameData.counters.numSmallBoxes += (gameData.workers.boxMakers.amount * 1) / 100;
+  gameData.counters.numBakedBoxes += (gameData.workers.boxBakers.amount * 1) / 200;
 
   // Update the text showing how many boxes we have, using Math.floor() to round down
   document.getElementById('number-small-boxes').innerHTML = Math.floor(
     gameData.counters.numSmallBoxes
   );
+  document.getElementById('number-baked-boxes').innerHTML = Math.floor(
+    gameData.counters.numBakedBoxes
+  );
 
   document.getElementById('number-box-makers').innerHTML = gameData.workers.boxMakers.amount;
+
+  document.getElementById('number-box-bakers').innerHTML = gameData.workers.boxBakers.amount;
 
 }
 
 function priceUpdater() {
+  // TO-DO: rework this into a smarter function
   // Update the workers with their current prices
   document.getElementById('btn-hire-box-maker').innerHTML =
     'Hire box maker - cost: ' + gameData.workers.boxMakers.cost;
+
+  document.getElementById('btn-hire-box-baker').innerHTML =
+    'Hire box baker - cost: ' + gameData.workers.boxBakers.cost;
 }
 
 function interfaceIO() {
+  // TO-DO: rework this into a smarter function
   // Enable/disable the worker buttons based on our boxes
   if (gameData.workers.boxMakers.cost > gameData.counters.numSmallBoxes) {
     document.getElementById('btn-hire-box-maker').disabled = true;
   } else {
     document.getElementById('btn-hire-box-maker').disabled = false;
+  }
+
+  if (gameData.workers.boxBakers.cost > gameData.counters.numSmallBoxes) {
+    document.getElementById('btn-hire-box-baker').disabled = true;
+  } else {
+    document.getElementById('btn-hire-box-baker').disabled = false;
   }
 }
 
@@ -243,7 +284,7 @@ function interfaceDisplayer() {
     showNewElement('counter-small-boxes');
   }
 
-  // show factory if we have at least 10 boxes
+  // show factory and box maker button if we have at least 10 boxes
   if (gameData.milestones[1].triggered) {
     showNewElement('box-factory');
   }
@@ -251,6 +292,21 @@ function interfaceDisplayer() {
   // show box makers counter if we have at least 1 box maker
   if (gameData.milestones[2].triggered) {
     showNewElement('counter-box-makers');
+  }
+
+  // show box baker button if we have at least 25 boxes or something
+  if (gameData.milestones[3].triggered) {
+    showNewElement('li-hire-box-baker');
+  }
+
+  // show box bakers counter if we have at least 1 box baker
+  if (gameData.milestones[4].triggered) {
+    showNewElement('counter-box-bakers');
+  }
+
+  // show baked boxes counter if we have at least 1 baked box
+  if (gameData.milestones[5].triggered) {
+    showNewElement('counter-baked-boxes');
   }
     
 }
