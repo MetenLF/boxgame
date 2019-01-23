@@ -7,6 +7,10 @@ body {
     display: none;
 }
 
+.the-box-picture {
+    max-width: 200px;
+}
+
 /* do not click stuff*/
 #do-not-click {
     cursor: default;

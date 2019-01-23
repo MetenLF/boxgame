@@ -24,6 +24,18 @@ OK- make the hire box maker function a more versatile and global worker hire fun
 
 OK- Finally implement box baker and the baked boxes
 
+OK BUT NO UPGRADES YET- Implement pox wakers too!
+. very expensive
+. will be upgrade resource
+
+- testing utilities
+. really need them now!!
+. somewhere where I can hide buttons to help me add resources and shit
+
+- add cats. They like boxes
+
+
+
 - finish game's core features:
 . counters
 . workers
@@ -119,6 +131,33 @@ var gameData = {
       triggered: false,
       condition: {
         resource: 'gameData.counters.numBakedBoxes',
+        comparison: '>=',
+        threshold: 1
+      }
+    },
+    {
+      name: 'poxWakerButton',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numBakedBoxes',
+        comparison: '>=',
+        threshold: 25
+      }
+    },
+    {
+      name: 'poxWakerCounter',
+      triggered: false,
+      condition: {
+        resource: 'gameData.workers.poxWakers.amount',
+        comparison: '>=',
+        threshold: 1
+      }
+    },
+    {
+      name: 'wakedPoxCounter',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numPoxWaked',
         comparison: '>=',
         threshold: 1
       }
@@ -235,6 +274,7 @@ function counterUpdater() {
   // workers add 1 box per second (1/100 every 10ms)
   gameData.counters.numSmallBoxes += (gameData.workers.boxMakers.amount * 1) / 100;
   gameData.counters.numBakedBoxes += (gameData.workers.boxBakers.amount * 1) / 200;
+  gameData.counters.numPoxWaked += (gameData.workers.poxWakers.amount * 1) / 500;
 
   // Update the text showing how many boxes we have, using Math.floor() to round down
   document.getElementById('number-small-boxes').innerHTML = Math.floor(
@@ -243,10 +283,15 @@ function counterUpdater() {
   document.getElementById('number-baked-boxes').innerHTML = Math.floor(
     gameData.counters.numBakedBoxes
   );
+  document.getElementById('number-waked-poxes').innerHTML = Math.floor(
+    gameData.counters.numPoxWaked
+  );
 
   document.getElementById('number-box-makers').innerHTML = gameData.workers.boxMakers.amount;
 
   document.getElementById('number-box-bakers').innerHTML = gameData.workers.boxBakers.amount;
+
+  document.getElementById('number-pox-wakers').innerHTML = gameData.workers.poxWakers.amount;
 
 }
 
@@ -258,6 +303,9 @@ function priceUpdater() {
 
   document.getElementById('btn-hire-box-baker').innerHTML =
     'Hire box baker - cost: ' + gameData.workers.boxBakers.cost;
+
+  document.getElementById('btn-hire-pox-waker').innerHTML =
+    'Hire box baker - cost: ' + gameData.workers.poxWakers.cost;
 }
 
 function interfaceIO() {
@@ -273,6 +321,12 @@ function interfaceIO() {
     document.getElementById('btn-hire-box-baker').disabled = true;
   } else {
     document.getElementById('btn-hire-box-baker').disabled = false;
+  }
+
+  if (gameData.workers.poxWakers.cost > gameData.counters.numSmallBoxes) {
+    document.getElementById('btn-hire-pox-waker').disabled = true;
+  } else {
+    document.getElementById('btn-hire-pox-waker').disabled = false;
   }
 }
 
@@ -307,6 +361,21 @@ function interfaceDisplayer() {
   // show baked boxes counter if we have at least 1 baked box
   if (gameData.milestones[5].triggered) {
     showNewElement('counter-baked-boxes');
+  }
+
+  // show pox waker button if we have at least 25 baked boxes
+  if (gameData.milestones[6].triggered) {
+    showNewElement('li-hire-pox-waker');
+  }
+
+  // show waked pox counter if we have at least 1 waked pox
+  if (gameData.milestones[7].triggered) {
+    showNewElement('counter-pox-wakers');
+  }
+
+  // show waked pox counter if we have at least 1 waked pox
+  if (gameData.milestones[8].triggered) {
+    showNewElement('counter-waked-poxes');
   }
     
 }

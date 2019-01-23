@@ -92,7 +92,7 @@
                                     </li>
                                     <li id="li-hire-pox-waker" class="list-group-item invisible-stuff">
                                         <!-- WIP -->
-                                        <button id="btn-hire-box-baker" class="btn btn-danger" disabled>Hire pox waker - cost: <span>100</span></button>
+                                        <button id="btn-hire-pox-waker" class="btn btn-danger" onclick="hireWorker('poxWakers')">Hire pox waker - cost: <span>100</span></button>
                                         <br>
                                         <small>A pox waker will... now hold on a second.</small>
                                     </li>
@@ -106,8 +106,8 @@
                 <div class="col-4">
                     <div class="card" style="width: 18rem;">
                         <!-- <img class="card-img-top" src="img/box-cardboard.jpg" alt="Box"> -->
-                        <figure class="figure card-img-top">
-                            <img src="img/box-cardboard.jpg" class="figure-img img-fluid rounded" alt="Box">
+                        <figure class="figure card-img-top text-center">
+                            <img src="img/box-cardboard.jpg" class="figure-img img-fluid rounded the-box-picture" alt="Box">
                             <figcaption class="figure-caption ml-4">- A completely ordinary box.</figcaption>
                         </figure>
                         <div id="statistics-card" class="card-body invisible-stuff">
@@ -132,6 +132,16 @@
                             <li id="counter-box-bakers" class="list-group-item invisible-stuff">
                                 <p class="card-text">
                                     <b>Box bakers:</b> <span id="number-box-bakers" class="float-right"></span>
+                                </p>
+                            </li>
+                            <li id="counter-waked-poxes" class="list-group-item list-group-item-danger invisible-stuff">
+                                <p class="card-text">
+                                    <b>Waked poxes:</b> <span id="number-waked-poxes" class="float-right">0</span>
+                                </p>
+                            </li>
+                            <li id="counter-pox-wakers" class="list-group-item invisible-stuff">
+                                <p class="card-text">
+                                    <b>Pox wakers:</b> <span id="number-pox-wakers" class="float-right"></span>
                                 </p>
                             </li>
                         </ul>
