@@ -30,16 +30,18 @@ OK BUT NO UPGRADES YET- Implement pox wakers too!
 . very expensive
 . will be upgrade resource
 
-- floor at source instead of on every interface update in the counterUpdater function
-
-- testing utilities
+OK- testing utilities
 . really need them now!!
 . somewhere where I can hide buttons to help me add resources and stuff
+. activate testing utilities by typing ta() into the console
 
 - apparently our game is using about 10% CPU so what the hell. Look into optimization.
 
 - add cats. They like boxes
 
+- floor at source instead of on every interface update in the counterUpdater function
+. I have no idea what I'm doing.
+. Think about this some more.
 
 
 - finish game's core features:

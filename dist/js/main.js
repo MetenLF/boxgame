@@ -125,6 +125,10 @@ function showNewElement(elementId) {
     // TO-DO: animation
     document.getElementById(elementId).classList.remove('invisible-stuff');
 }
+function hideElement(elementId) {
+    // TO-DO: animation
+    document.getElementById(elementId).classList.add('invisible-stuff');
+}
 
 // END AUX FUNCTIONS -----------------------------------------------------------
 
@@ -182,6 +186,33 @@ function doNotClick(thisElement) {
         thisElement.innerHTML = '';
     }
 }
+
+// testing function to add resources and workers without any cost.
+function testAddStuff(resourceGroup, resourceName, resourceParam, amount) {
+  if (!resourceParam) {
+    // means we're adding counters
+    gameData[resourceGroup][resourceName] += amount;
+
+  } else {
+    // means we're adding workers
+    gameData[resourceGroup][resourceName][resourceParam] += amount;
+
+  }
+}
+
+// testing function to show the testing tools
+// activate testing utilities by typing ta() into the console
+// hide testing utilities by doing the exact same thing.
+function ta() {
+  if (document.getElementById('testing-area').classList.contains('invisible-stuff')) {
+    showNewElement('testing-area');
+    
+  } else {
+    hideElement('testing-area');
+    
+  }
+}
+
 
 // functions that save, load and delete the game
 function saveTheGame() {

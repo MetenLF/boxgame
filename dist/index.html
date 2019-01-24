@@ -49,10 +49,6 @@
             </ul>
         </nav>
 
-        <!-- spacer -->
-        <!-- <div class="container-fluid my-5 py-5"></div>
-        <div class="container-fluid my-5"></div> -->
-
         <!-- large layout why not -->
         <!-- Lay it out like universal paperclips. Start from left, go to the right. Simple columning should do the trick for now.-->
         <main id="main-container" class="container-fluid">
@@ -148,6 +144,73 @@
 
                 </div>
             </div>
+            <div id="testing-area" class="row my-3 invisible-stuff">
+                <div class="col">
+                    <div class="card bg-dark text-light">
+                        <div class="card-body">
+                            <h3 class="text-center">SECRET TESTING AREA BEWARE</h3>
+                            <div class="row">
+                                <div class="col-4 text-center">
+                                    <p class="mb-0">Add boxes</p>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-primary" onclick="testAddStuff('counters', 'numSmallBoxes', '', 10)">+10</button>
+                                        <button type="button" class="btn btn-outline-primary" onclick="testAddStuff('counters', 'numSmallBoxes', '', 100)">+100</button>
+                                        <button type="button" class="btn btn-outline-primary" onclick="testAddStuff('counters', 'numSmallBoxes', '', 1000)">+1.000</button>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <p class="mb-0">Add baked boxes</p>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-warning" onclick="testAddStuff('counters', 'numBakedBoxes', '', 10)">+10</button>
+                                        <button type="button" class="btn btn-outline-warning" onclick="testAddStuff('counters', 'numBakedBoxes', '', 100)">+100</button>
+                                        <button type="button" class="btn btn-outline-warning" onclick="testAddStuff('counters', 'numBakedBoxes', '', 1000)">+1.000</button>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <p class="mb-0">Add waked poxes</p>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-danger" onclick="testAddStuff('counters', 'numPoxWaked', '', 10)">+10</button>
+                                        <button type="button" class="btn btn-outline-danger" onclick="testAddStuff('counters', 'numPoxWaked', '', 100)">+100</button>
+                                        <button type="button" class="btn btn-outline-danger" onclick="testAddStuff('counters', 'numPoxWaked', '', 1000)">+1.000</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-center">
+                                    <p class="mb-0">hire box makers</p>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-primary" onclick="testAddStuff('workers', 'boxMakers', 'amount', 10)">+10</button>
+                                        <button type="button" class="btn btn-outline-primary" onclick="testAddStuff('workers', 'boxMakers', 'amount', 100)">+100</button>
+                                        <button type="button" class="btn btn-outline-primary" onclick="testAddStuff('workers', 'boxMakers', 'amount', 1000)">+1.000</button>
+                                    </div>
+
+                                </div>
+                                <div class="col-4 text-center">
+                                    <p class="mb-0">hire box bakers</p>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-warning" onclick="testAddStuff('workers', 'boxBakers', 'amount', 10)">+10</button>
+                                        <button type="button" class="btn btn-outline-warning" onclick="testAddStuff('workers', 'boxBakers', 'amount', 100)">+100</button>
+                                        <button type="button" class="btn btn-outline-warning" onclick="testAddStuff('workers', 'boxBakers', 'amount', 1000)">+1.000</button>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <p class="mb-0">hire pox wakers</p>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-danger" onclick="testAddStuff('workers', 'poxWakers', 'amount', 10)">+10</button>
+                                        <button type="button" class="btn btn-outline-danger" onclick="testAddStuff('workers', 'poxWakers', 'amount', 100)">+100</button>
+                                        <button type="button" class="btn btn-outline-danger" onclick="testAddStuff('workers', 'poxWakers', 'amount', 1000)">+1.000</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                                      
+                </div>
+            </div>
+
+
         </main>
 
 
