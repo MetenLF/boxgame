@@ -1,57 +1,3 @@
-/*------------------------------------------------------------------------------
-Plans (new!):
-OK- rewrite this entire crap in vanilla javascript
-
-OK- fucking start a repo
-
-OK- rework game data variables into a huge object so I can work better later on the save and load
-
-OK- make game autoload when page loads
-
-OK- make sure interface is automatically updated with that (logic rework)
-
-OK- save game and load game
-. save game
-. load game
-. delete save
-. buttons to do these things
-
-OK- Implement milestones as a new and more versatile way to display new interface elements
-
-TECHNICALLY OK WILL BE DEVELOPED LATER- Make an achievements object
-
-OK- make the hire box maker function a more versatile and global worker hire function
-
-OK- Finally implement box baker and the baked boxes
-
-OK BUT NO UPGRADES YET- Implement pox wakers too!
-. very expensive
-. will be upgrade resource
-
-- testing utilities
-. really need them now!!
-. somewhere where I can hide buttons to help me add resources and shit
-
-- add cats. They like boxes
-
-
-
-- finish game's core features:
-. counters
-. workers
-. values
-. testing utilities
-. upgrades
-. some progression
-. an alert box on the top or something to substitute window alerts
-
-- rewrite everything using more modern javascript or typescript I have no clue
-
-- use something else for the interface and learn some css preprocessor
-
-- finally go use some fucking framework like goddamn react or vue or angular
-------------------------------------------------------------------------------*/
-
 // START GLOBAL VARS -----------------------------------------------------------
 // Basic variable declaration - keep track of how many of each item we currently own, and how much the new ones should cost.
 /*
@@ -305,7 +251,7 @@ function priceUpdater() {
     'Hire box baker - cost: ' + gameData.workers.boxBakers.cost;
 
   document.getElementById('btn-hire-pox-waker').innerHTML =
-    'Hire box baker - cost: ' + gameData.workers.poxWakers.cost;
+    'Hire pox waker - cost: ' + gameData.workers.poxWakers.cost;
 }
 
 function interfaceIO() {
