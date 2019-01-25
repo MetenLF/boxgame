@@ -217,7 +217,7 @@ var gameData = {
       condition: {
         resource: 'gameData.counters.numPoxWaked',
         comparison: '>=',
-        threshold: 100
+        threshold: 5
       }
     },
     {
@@ -226,7 +226,7 @@ var gameData = {
       condition: {
         resource: 'gameData.counters.numPoxWaked',
         comparison: '>=',
-        threshold: 200
+        threshold: 100
       }
     }
   ],
@@ -501,6 +501,26 @@ function interfaceIO() {
     document.getElementById('upgrade-btn-box-stacking').disabled = true;
   } else {
     document.getElementById('upgrade-btn-box-stacking').disabled = false;
+  }
+  if (gameData.upgrades.marketing.cost > gameData.counters.numBakedBoxes) {
+    document.getElementById('upgrade-btn-marketing').disabled = true;
+  } else {
+    document.getElementById('upgrade-btn-marketing').disabled = false;
+  }
+  if (gameData.upgrades.boxedCats.cost > gameData.counters.numBakedBoxes) {
+    document.getElementById('upgrade-btn-boxed-cats').disabled = true;
+  } else {
+    document.getElementById('upgrade-btn-boxed-cats').disabled = false;
+  }
+  if (gameData.upgrades.diseaseVectors.cost > gameData.counters.numPoxWaked) {
+    document.getElementById('upgrade-btn-disease-vectors').disabled = true;
+  } else {
+    document.getElementById('upgrade-btn-disease-vectors').disabled = false;
+  }
+  if (gameData.upgrades.dyslexia.cost > gameData.counters.numPoxWaked) {
+    document.getElementById('upgrade-btn-dyslexia').disabled = true;
+  } else {
+    document.getElementById('upgrade-btn-dyslexia').disabled = false;
   }
 }
 

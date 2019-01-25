@@ -26,7 +26,7 @@ OK- make the hire box maker function a more versatile and global worker hire fun
 
 OK- Finally implement box baker and the baked boxes
 
-OK BUT NO UPGRADES YET- Implement pox wakers too!
+OK- Implement pox wakers!
 . very expensive
 . will be upgrade resource
 
@@ -35,19 +35,17 @@ OK- testing utilities
 . somewhere where I can hide buttons to help me add resources and stuff
 . activate testing utilities by typing ta() into the console
 
-NO IDEA WHAT TO DO HERE- apparently our game is using about 10% CPU so what the hell. Look into optimization.
+OK- rework some of the interface, its looking kinda bad
 
 OK- add upgrades
-+. create an upgrade object
-+. hide the upgrades card
-+. bind the card to a milestone 
-+. hide all the upgrades 
-+. bind all the upgrades to milestones 
-+. show every single one of those elements whenever we hit a threshold
-+. implement purchase of the upgrades 
-+. implement their effects on the game
-POSTPONED. add meowconomy
-POSTPONED. add meowpocalypse
+. create an upgrade object
+. hide the upgrades card
+. bind the card to a milestone 
+. hide all the upgrades 
+. bind all the upgrades to milestones 
+. show every single one of those elements whenever we hit a threshold
+. implement purchase of the upgrades 
+. implement their effects on the game
 
 OK- improve the way the hire buttons are rendered because they're literally going crazy thanks to the icon
 . and the worker counters too because they don't need to be updated all the goddamn time.
@@ -67,6 +65,8 @@ OK- improve the way the hire buttons are rendered because they're literally goin
 - add cats. They like boxes
 
 - cats trigger a progress bar called Meowconomy that will increase based on the number of boxes you have stored
+
+NO IDEA WHAT TO DO HERE- apparently our game is using about 10% CPU so what the hell. Look into optimization.
 
 - floor at source instead of on every interface update in the counterUpdater function
 . I have no idea what I'm doing.
