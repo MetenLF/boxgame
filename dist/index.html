@@ -57,36 +57,39 @@
                 <div class="col-4">
                     <div class="row">
                         <div class="col">
-                            <button id="make-small-boxes" type="button" class="btn btn-block btn-primary" onclick="makeSmallBox()">Make a small box</button>
+                            <button id="make-small-boxes" type="button" class="btn btn-block btn-primary" onclick="makeSmallBox()">Make a small box <i class="fa fa-cube"></i> </button>
                             
                         </div>
                     </div>
                     <div id="box-factory" class="row mt-3 invisible-stuff">
                         <div class="col">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header text-center">
                                     <h4>Box Factory</h4>
                                 </div>
                                 <div class="card-body">
-                                    <p>
+                                    <p class="mb-0">
                                         In the factory, boxes are produced automatically.
                                     </p>
                                 </div>
-                                <ul class="list-group list-group-flush">
+                                <ul class="list-group list-group-flush text-center">
                                     <li class="list-group-item">
-                                        <button id="btn-hire-box-maker" class="btn btn-success" onclick="hireWorker('boxMakers')">Hire box maker - cost: <span>10</span></button>
-                                        <br>
+                                        <button id="btn-hire-box-maker" class="btn btn-block btn-success" onclick="hireWorker('boxMakers')">
+                                            Hire box maker - cost: <span id="cost-hire-box-maker">10</span> <i class="fa fa-cube"></i>
+                                        </button>
                                         <small>A box maker will make boxes for you</small>
                                     </li>
                                     <li id="li-hire-box-baker" class="list-group-item invisible-stuff">
-                                        <button id="btn-hire-box-baker" class="btn btn-warning" onclick="hireWorker('boxBakers')">Hire box baker - cost: <span>25</span></button>
-                                        <br>
+                                        <button id="btn-hire-box-baker" class="btn btn-block btn-warning" onclick="hireWorker('boxBakers')">
+                                            Hire box baker - cost: <span id="cost-hire-box-baker">25</span> <i class="fa fa-cube"></i>
+                                        </button>
                                         <small>A box baker will... bake boxes for you?</small>
                                     </li>
                                     <li id="li-hire-pox-waker" class="list-group-item invisible-stuff">
                                         <!-- WIP -->
-                                        <button id="btn-hire-pox-waker" class="btn btn-danger" onclick="hireWorker('poxWakers')">Hire pox waker - cost: <span>100</span></button>
-                                        <br>
+                                        <button id="btn-hire-pox-waker" class="btn btn-block btn-danger" onclick="hireWorker('poxWakers')">
+                                            Hire pox waker - cost: <span id="cost-hire-pox-waker">100</span> <i class="fa fa-cube"></i>
+                                        </button>
                                         <small>A pox waker will... now hold on a second.</small>
                                     </li>
                                 </ul>
@@ -97,19 +100,19 @@
                 </div>
                 <!-- place progress bars here? Sounds fun. -->
                 <div class="col-4">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card overflow-auto">
                         <!-- <img class="card-img-top" src="img/box-cardboard.jpg" alt="Box"> -->
-                        <figure class="figure card-img-top text-center mb-0">
+                        <figure class="figure card-img-top text-center mb-2">
                             <img src="img/box-cardboard.jpg" class="figure-img img-fluid rounded the-box-picture" alt="Box">
                             <figcaption class="figure-caption ml-4">- A completely ordinary box.</figcaption>
                         </figure>
-                        <div id="statistics-card" class="card-body invisible-stuff">
+                        <div id="statistics-card" class="card-header invisible-stuff border-top text-center">
                             <h4 class="card-title">Statistics</h4>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li id="counter-small-boxes" class="list-group-item list-group-item-success invisible-stuff">
                                 <p class="card-text">
-                                    <b>Small boxes:</b> <span id="number-small-boxes" class="float-right">0</span>
+                                   <i class="fa fa-cube"></i> <b>Small boxes:</b> <span id="number-small-boxes" class="float-right">0</span>
                                 </p>
                             </li>
                             <li id="counter-box-makers" class="list-group-item invisible-stuff">
@@ -119,7 +122,7 @@
                             </li>
                             <li id="counter-baked-boxes" class="list-group-item list-group-item-warning invisible-stuff">
                                 <p class="card-text">
-                                    <b>Baked boxes:</b> <span id="number-baked-boxes" class="float-right">0</span>
+                                   <i class="fa fa-birthday-cake"></i> <b>Baked boxes:</b> <span id="number-baked-boxes" class="float-right">0</span>
                                 </p>
                             </li>
                             <li id="counter-box-bakers" class="list-group-item invisible-stuff">
@@ -129,7 +132,7 @@
                             </li>
                             <li id="counter-waked-poxes" class="list-group-item list-group-item-danger invisible-stuff">
                                 <p class="card-text">
-                                    <b>Waked poxes:</b> <span id="number-waked-poxes" class="float-right">0</span>
+                                   <i class="fa fa-heartbeat"></i> <b>Waked poxes:</b> <span id="number-waked-poxes" class="float-right">0</span>
                                 </p>
                             </li>
                             <li id="counter-pox-wakers" class="list-group-item invisible-stuff">
@@ -141,6 +144,38 @@
                     </div>
                 </div>
                 <div class="col-4">
+                    <div id="upgrades-card" class="card invisible-stuff">
+                        <div class="card-header text-center">
+                            <h4>Upgrades</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-0">
+                                Things you can buy from a shady individual who only accepts special boxes as payment. Among other things.
+                            </p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                            <li id="upgrade-box-stacking" class="list-group-item">
+                                <button class="btn btn-block btn-info" id="upgrade-btn-box-stacking" onclick="buyUpgrade('boxStacking', 'upgrade-box-stacking')">Box stacking - cost: <span>100 <i class="fa fa-birthday-cake"></i>  </span></button>
+                                <small>You figure out how to stack boxes and thus you can quadruple your box production per click!</small>
+                            </li>
+                            <li id="upgrade-marketing" class="list-group-item invisible-stuff">
+                                <button class="btn btn-block btn-info" id="upgrade-btn-marketing" onclick="buyUpgrade('marketing', 'upgrade-marketing')">Marketing - cost: <span>200 <i class="fa fa-birthday-cake"></i>  </span></button>
+                                <small>You begin to sell boxes by telling people they're cat traps, and they believe you!</small>
+                            </li>
+                            <li id="upgrade-boxed-cats" class="list-group-item invisible-stuff">
+                                <button class="btn btn-block btn-info" id="upgrade-btn-boxed-cats" onclick="buyUpgrade('boxedCats', 'upgrade-boxed-cats')">Boxed cats - cost: <span>750 <i class="fa fa-birthday-cake"></i>  </span></button>
+                                <small>Turns out people want boxes that comes with cats, and not boxes to obtain cats. So you start to include cats IN the boxes!</small>
+                            </li>
+                            <li id="upgrade-disease-vectors" class="list-group-item invisible-stuff">
+                                <button class="btn btn-block btn-info" id="upgrade-btn-disease-vectors" onclick="buyUpgrade('diseaseVectors', 'upgrade-disease-vectors')">Disease vectors - cost: <span>100 <i class="fa fa-heartbeat"></i>  </span></button>
+                                <small>You turn the cats into carriers of the deadly pox, increasing your pox production!</small>
+                            </li>
+                            <li id="upgrade-dyslexia" class="list-group-item invisible-stuff">
+                                <button class="btn btn-block btn-info" id="upgrade-btn-dyslexia" onclick="buyUpgrade('dyslexia', 'upgrade-dyslexia')">Cure your dyslexia - cost: <span>200 <i class="fa fa-heartbeat"></i>  </span></button>
+                                <small>You were boxing rats this entire time. Oops.</small>
+                            </li>
+                        </ul>
+                    </div>
 
                 </div>
             </div>

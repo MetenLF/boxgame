@@ -20,8 +20,8 @@ Lots of things, but I'm trying to keep it small and objective.
 - [x] **workers:** for every of the above resources
 - [x] **values:** a rate of progression
 - [x] **testing utilities:** because we'll really need them
+- [x] **upgrades:** to make stuff more fun!
 - [ ] **some progression:** to give a direction to the player
-- [ ] **upgrades:** to make stuff more fun!
 - [ ] **an alert box on the top or something to substitute window alerts:** to make the game more pleasant.
 
 ### Bonus features

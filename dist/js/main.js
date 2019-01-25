@@ -4,6 +4,7 @@
 Data structure should be splitting stuff into what is owned by what.
 */
 var gameData = {
+  clickPower: 1,
   counters: {
     numSmallBoxes: 0,
     numBakedBoxes: 0,
@@ -24,6 +25,81 @@ var gameData = {
       amount: 0,
       cost: 100,
       costIncrement: 1.6
+    }
+  },
+  apocalypse: {
+    phase1: {
+      active: false,
+      progress: 0,
+      speed: 0.00001
+    },
+    phase2: {
+      active: false,
+      progress: 0,
+      speed: 0.000001
+    }
+  },
+  upgrades: {
+    boxStacking: {
+      bought: false,
+      cost: 100,
+      currency: 'numBakedBoxes',
+      effect: {
+        function: 'incrementClickPower',
+        params: [
+          3
+        ]
+      }
+    },
+    marketing: {
+      bought: false,
+      cost: 200,
+      currency: 'numBakedBoxes',
+      effect: {
+        function: 'meowConomy',
+        params: [
+          'phase1',
+          'activate'
+        ]
+      }
+    },
+    boxedCats: {
+      bought: false,
+      cost: 750,
+      currency: 'numBakedBoxes',
+      effect: {
+        function: 'meowConomy',
+        params: [
+          'phase1',
+          'increment',
+          1
+        ]
+      }
+    },
+    diseaseVectors: {
+      bought: false,
+      cost: 100,
+      currency: 'numPoxWaked',
+      effect: {
+        function: 'meowPocalypse',
+        params: [
+          'phase2',
+          'activate'
+        ]
+      }
+    },
+    dyslexia: {
+      bought: false,
+      cost: 200,
+      currency: 'numPoxWaked',
+      effect: {
+        function: 'meowPocalypse',
+        params: [
+          'phase2',
+          'transform',
+          'rats'
+        ]
+      }
     }
   },
   milestones: [
@@ -107,6 +183,51 @@ var gameData = {
         comparison: '>=',
         threshold: 1
       }
+    },
+    {
+      name: 'upgradesCard',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numBakedBoxes',
+        comparison: '>=',
+        threshold: 50
+      }
+    },
+    {
+      name: 'upgradeMarketing',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numBakedBoxes',
+        comparison: '>=',
+        threshold: 100
+      }
+    },
+    {
+      name: 'upgradeBoxedCats',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numBakedBoxes',
+        comparison: '>=',
+        threshold: 375
+      }
+    },
+    {
+      name: 'upgradeDiseaseVectors',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numPoxWaked',
+        comparison: '>=',
+        threshold: 100
+      }
+    },
+    {
+      name: 'upgradeDyslexia',
+      triggered: false,
+      condition: {
+        resource: 'gameData.counters.numPoxWaked',
+        comparison: '>=',
+        threshold: 200
+      }
     }
   ],
   achievements: {},
@@ -121,6 +242,23 @@ var gameData = {
 
 // START AUX FUNCTIONS ---------------------------------------------------------
 
+// this is cool black magic. 
+// Source: https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
+Object.byString = function (o, s) {
+  s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+  s = s.replace(/^\./, '');           // strip a leading dot
+  var a = s.split('.');
+  for (var i = 0, n = a.length; i < n; ++i) {
+    var k = a[i];
+    if (k in o) {
+      o = o[k];
+    } else {
+      return;
+    }
+  }
+  return o;
+}
+
 function showNewElement(elementId) {
     // TO-DO: animation
     document.getElementById(elementId).classList.remove('invisible-stuff');
@@ -130,26 +268,91 @@ function hideElement(elementId) {
     document.getElementById(elementId).classList.add('invisible-stuff');
 }
 
+function conditionallyUpdateInterfaceElement(elementId, objectStringKey) {
+  // type can be either counter or worker
+  var objectValue = Object.byString(gameData, objectStringKey);
+
+  if (document.getElementById(elementId).innerHTML != objectValue) {
+    document.getElementById(elementId).innerHTML = objectValue;
+
+  }
+}
+
 // END AUX FUNCTIONS -----------------------------------------------------------
 
+// START CUSTOM UPGRADE FUNCTIONS ----------------------------------------------
+
+function incrementClickPower (amount) {
+  gameData.clickPower += amount;
+
+  for (var index = 0; index < amount; index++) {
+    document.getElementById('make-small-boxes').insertAdjacentHTML('beforeend', ' <i class="fa fa-cube"></i>');
+  }
+}
+
+function meowConomy (phase, command, increment){
+  // TO-DO: implement the counter function to display a progress bar and keep incrementing the apocalypse
+  switch (command) {
+    case 'activate':
+      gameData['apocalypse'][phase]['active'] = true;
+      
+      break;
+
+    case 'increment':
+      gameData['apocalypse'][phase]['speed'] += increment;
+      
+      break;
+
+    case 'transform':
+      // TO-DO: replace all instances of the word cat and cats for rat and rats
+  
+    default:
+      break;
+  }
+}
+
+// END CUSTOM UPGRADE FUNCTIONS ------------------------------------------------
 
 // START INTERFACE TRIGGERED FUNCTIONS -----------------------------------------
 
 // small box maker button
 function makeSmallBox() {
   // add a box and show on the interface
-  document.getElementById('number-small-boxes').innerHTML = ++gameData.counters.numSmallBoxes;
+  // document.getElementById('number-small-boxes').innerHTML = gameData.counters.numSmallBoxes + gameData.clickPower;
+
+  // TO-DO: this create a very laggy feeling box making button. Maybe rethink?
+  gameData.counters.numSmallBoxes += gameData.clickPower;
 }
 
 // hire worker button
 function hireWorker(workerType) {
-    ++gameData['workers'][workerType]['amount'];
+  ++gameData['workers'][workerType]['amount'];
 
-    // Deduct cost
-    gameData['counters']['numSmallBoxes'] -= gameData['workers'][workerType]['cost'];
+  // Deduct cost
+  gameData['counters']['numSmallBoxes'] -= gameData['workers'][workerType]['cost'];
 
-    // Increase cost for the next one, using Math.ceil() to round up
-    gameData['workers'][workerType]['cost'] = Math.ceil(gameData['workers'][workerType]['cost'] * gameData['workers'][workerType]['costIncrement']);
+  // Increase cost for the next one, using Math.ceil() to round up
+  gameData['workers'][workerType]['cost'] = Math.ceil(gameData['workers'][workerType]['cost'] * gameData['workers'][workerType]['costIncrement']);
+}
+
+function buyUpgrade(upgradeName, parentListElement) {
+  // get the currency and cost
+  var currencyUsedforPurchase = gameData['upgrades'][upgradeName]['currency'];
+  var costOfTheUpgrade = gameData['upgrades'][upgradeName]['cost'];
+
+  // perform the currency deduction and register the purchase
+  gameData['upgrades'][upgradeName]['purchased'] = true;
+  gameData['counters'][currencyUsedforPurchase] -= costOfTheUpgrade;
+
+  // eval the effect function
+  var functionName = gameData['upgrades'][upgradeName]['effect']['function'];
+  var functionParams = gameData['upgrades'][upgradeName]['effect']['params'];
+
+
+  document.getElementById(parentListElement).classList.add('really-invisible-stuff');
+
+  eval(functionName + '(' + functionParams.join('') + ')');
+
 }
 
 // do not click thing
@@ -254,35 +457,22 @@ function counterUpdater() {
   gameData.counters.numPoxWaked += (gameData.workers.poxWakers.amount * 1) / 500;
 
   // Update the text showing how many boxes we have, using Math.floor() to round down
-  document.getElementById('number-small-boxes').innerHTML = Math.floor(
-    gameData.counters.numSmallBoxes
-  );
-  document.getElementById('number-baked-boxes').innerHTML = Math.floor(
-    gameData.counters.numBakedBoxes
-  );
-  document.getElementById('number-waked-poxes').innerHTML = Math.floor(
-    gameData.counters.numPoxWaked
-  );
+  document.getElementById('number-small-boxes').innerHTML = Math.floor(gameData.counters.numSmallBoxes);
+  document.getElementById('number-baked-boxes').innerHTML = Math.floor(gameData.counters.numBakedBoxes);
+  document.getElementById('number-waked-poxes').innerHTML = Math.floor(gameData.counters.numPoxWaked);
 
-  document.getElementById('number-box-makers').innerHTML = gameData.workers.boxMakers.amount;
-
-  document.getElementById('number-box-bakers').innerHTML = gameData.workers.boxBakers.amount;
-
-  document.getElementById('number-pox-wakers').innerHTML = gameData.workers.poxWakers.amount;
+  // Update the number of workers that were hired so far
+  conditionallyUpdateInterfaceElement('number-box-makers', 'workers.boxMakers.amount');
+  conditionallyUpdateInterfaceElement('number-box-bakers', 'workers.boxBakers.amount');
+  conditionallyUpdateInterfaceElement('number-pox-wakers', 'workers.poxWakers.amount');
 
 }
 
 function priceUpdater() {
-  // TO-DO: rework this into a smarter function
-  // Update the workers with their current prices
-  document.getElementById('btn-hire-box-maker').innerHTML =
-    'Hire box maker - cost: ' + gameData.workers.boxMakers.cost;
+  conditionallyUpdateInterfaceElement('cost-hire-box-maker', 'workers.boxMakers.cost');
+  conditionallyUpdateInterfaceElement('cost-hire-box-baker', 'workers.boxBakers.cost');
+  conditionallyUpdateInterfaceElement('cost-hire-pox-waker', 'workers.poxWakers.cost');
 
-  document.getElementById('btn-hire-box-baker').innerHTML =
-    'Hire box baker - cost: ' + gameData.workers.boxBakers.cost;
-
-  document.getElementById('btn-hire-pox-waker').innerHTML =
-    'Hire pox waker - cost: ' + gameData.workers.poxWakers.cost;
 }
 
 function interfaceIO() {
@@ -304,6 +494,13 @@ function interfaceIO() {
     document.getElementById('btn-hire-pox-waker').disabled = true;
   } else {
     document.getElementById('btn-hire-pox-waker').disabled = false;
+  }
+
+  // upgrade purchases below!
+  if (gameData.upgrades.boxStacking.cost > gameData.counters.numBakedBoxes) {
+    document.getElementById('upgrade-btn-box-stacking').disabled = true;
+  } else {
+    document.getElementById('upgrade-btn-box-stacking').disabled = false;
   }
 }
 
@@ -353,6 +550,31 @@ function interfaceDisplayer() {
   // show waked pox counter if we have at least 1 waked pox
   if (gameData.milestones[8].triggered) {
     showNewElement('counter-waked-poxes');
+  }
+
+  // show the upgrades card and the first upgrade as well when we have at least 10 baked boxes
+  if (gameData.milestones[9].triggered) {
+    showNewElement('upgrades-card');
+  }
+
+  // show the marketing upgrade when we have at least 100 baked boxes
+  if (gameData.milestones[10].triggered) {
+    showNewElement('upgrade-marketing');
+  }
+
+  // show another upgrade item
+  if (gameData.milestones[11].triggered) {
+    showNewElement('upgrade-boxed-cats');
+  }
+
+  // show another upgrade item
+  if (gameData.milestones[12].triggered) {
+    showNewElement('upgrade-disease-vectors');
+  }
+
+  // show another upgrade item
+  if (gameData.milestones[13].triggered) {
+    showNewElement('upgrade-dyslexia');
   }
     
 }
@@ -404,6 +626,6 @@ window.setInterval(function () {
 // YE POOR LOAD FUNCTION -------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
   console.log("ready!");
-  loadTheGame(true);
+  // loadTheGame(true);
   document.body.classList.remove('invisible-stuff');
 });
