@@ -56,7 +56,15 @@ OK- completely rework the milestone function (interfaceDisplayer) because its du
 
 OK- OH MY GOD TURNS OUT EVAL() IS THE JAVASCRIPT BABA YAGA OH GOD OH FUCK I NEED TO REMOVE IT
 
-- do the same with the interfaceIO function
+OK- do the same with the interfaceIO function
+
+OK- actually one more eval to remove from the game in the upgrades engine
+
+OK- upgrade of box stacking should make the click button get stacked boxes just for fun, instead of in a line
+
+OK- next click power upgrade should do the same thing but on a line, giving the player a 4x4 amount of boxes per click 
+
+OK- one more click power upgrade should make the boxes more compact, thus changing the icon to cubes instead.
 
 - start using lets instead of vars
 

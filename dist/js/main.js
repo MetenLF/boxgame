@@ -57,6 +57,14 @@ var gameData = {
       condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxStacking.cost; }
     },
     {
+      elementId: 'upgrade-btn-box-shelving',
+      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxShelving.cost; }
+    },
+    {
+      elementId: 'upgrade-btn-box-compacting',
+      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxCompacting.cost; }
+    },
+    {
       elementId: 'upgrade-btn-marketing',
       condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.marketing.cost; }
     },
@@ -78,46 +86,44 @@ var gameData = {
       bought: false,
       cost: 100,
       currency: 'numBakedBoxes',
-      effect: {
-        function: 'incrementClickPower',
-        params: [3]
-      }
+      effect: function () { incrementClickPower(3, 'stack') }
+    },
+    boxShelving: {
+      bought: false,
+      cost: 500,
+      currency: 'numBakedBoxes',
+      effect: function () { incrementClickPower(12, 'shelf') }
+    },
+    boxCompacting: {
+      bought: false,
+      cost: 1000,
+      currency: 'numBakedBoxes',
+      effect: function () { incrementClickPower(48, 'compact') }
     },
     marketing: {
       bought: false,
       cost: 200,
       currency: 'numBakedBoxes',
-      effect: {
-        function: 'meowConomy',
-        params: ['phase1', 'activate']
-      }
+      effect: function () { meowConomy('phase1', 'activate')}
     },
     boxedCats: {
       bought: false,
       cost: 750,
       currency: 'numBakedBoxes',
-      effect: {
-        function: 'meowConomy',
-        params: ['phase1', 'increment', 1]
-      }
+      effect: function () { meowConomy('phase1', 'increment', 1) }
     },
+    
     diseaseVectors: {
       bought: false,
       cost: 100,
       currency: 'numPoxWaked',
-      effect: {
-        function: 'meowPocalypse',
-        params: ['phase2', 'activate']
-      }
+      effect: function () { meowConomy('phase2', 'activate') }
     },
     dyslexia: {
       bought: false,
       cost: 200,
       currency: 'numPoxWaked',
-      effect: {
-        function: 'meowPocalypse',
-        params: ['phase2', 'transform', 'rats']
-      }
+      effect: function () { meowConomy('phase2', 'transform', 'rats') }
     }
   },
   milestones: [
@@ -179,6 +185,18 @@ var gameData = {
       triggered: false,
       elements: ['upgrades-card'],
       condition: function () { return this.gameData.counters.numBakedBoxes >= 50; }
+    },
+    {
+      name: 'upgradeBoxShelving',
+      triggered: false,
+      elements: ['upgrade-box-shelving'],
+      condition: function () { return this.gameData.counters.numBakedBoxes >= 250; }
+    },
+    {
+      name: 'upgradeBoxCompacting',
+      triggered: false,
+      elements: ['upgrade-box-compacting'],
+      condition: function () { return this.gameData.counters.numBakedBoxes >= 500; }
     },
     {
       name: 'upgradeMarketing',
@@ -257,11 +275,52 @@ function conditionallyUpdateInterfaceElement(elementId, objectStringKey) {
 
 // START CUSTOM UPGRADE FUNCTIONS ----------------------------------------------
 
-function incrementClickPower (amount) {
+function incrementClickPower (amount, method) {
   gameData.clickPower += amount;
 
-  for (var index = 0; index < amount; index++) {
-    document.getElementById('make-small-boxes').insertAdjacentHTML('beforeend', ' <i class="fa fa-cube"></i>');
+  switch (method) {
+    case 'stack':
+      document
+        .getElementById('make-small-boxes')
+        .innerHTML = 'Make a small box <br><i class="fa fa-cube"></i><br><i class="fa fa-cube"></i><br><i class="fa fa-cube"></i><br><i class="fa fa-cube"></i>';
+      
+      break;
+
+    case 'shelf':
+      document
+        .getElementById('make-small-boxes')
+        .innerHTML = `Make a small box 
+          <br> 
+          <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i>
+          <br>
+          <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i>
+          <br>
+          <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i>
+          <br>
+          <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i>`
+        ;
+      
+      break;
+    
+    case 'compact':
+      document
+        .getElementById('make-small-boxes')
+        .innerHTML =
+          `Make a small box 
+          <br> 
+          <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i>
+          <br>
+          <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i>
+          <br>
+          <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i>
+          <br>
+          <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i>`
+        ;
+
+      break;
+  
+    default:
+      break;
   }
 }
 
@@ -319,14 +378,11 @@ function buyUpgrade(upgradeName, parentListElement) {
   gameData['upgrades'][upgradeName]['purchased'] = true;
   gameData['counters'][currencyUsedforPurchase] -= costOfTheUpgrade;
 
-  // eval the effect function
-  var functionName = gameData['upgrades'][upgradeName]['effect']['function'];
-  var functionParams = gameData['upgrades'][upgradeName]['effect']['params'];
-
+  // execute the effect function
+  // var upgradeEffect = 
+  gameData['upgrades'][upgradeName].effect.call();
 
   document.getElementById(parentListElement).classList.add('really-invisible-stuff');
-
-  eval(functionName + '(' + functionParams.join('') + ')');
 
 }
 
@@ -459,20 +515,19 @@ function interfaceIO() {
 
   for (var elementIo = 0; elementIo < arrayIo.length; elementIo++) {
 
-    if (arrayIo[elementIo].elementId.offsetParent) {
-      var thresholdTest = arrayIo[elementIo].condition.call({ gameData });
-  
-      if (thresholdTest) {
-        // if we can click the button
-        document.getElementById(arrayIo[elementIo].elementId).disabled = false;
-        
-      } else {
-        // if we can't click the butten
-        document.getElementById(arrayIo[elementIo].elementId).disabled = true;
-  
-      }
+    var thresholdTest = arrayIo[elementIo].condition.call({ gameData });
+
+    if (thresholdTest) {
+      // if we can click the button
+      document.getElementById(arrayIo[elementIo].elementId).disabled = false;
+      
+    } else {
+      // if we can't click the butten
+      document.getElementById(arrayIo[elementIo].elementId).disabled = true;
 
     }
+
+    
   }
 }
 
