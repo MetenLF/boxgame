@@ -1,7 +1,7 @@
 This is just a list of random stuff I need to organize my own messy mind.
 
-
 Plans (new!):
+
 OK- rewrite this entire thing in vanilla javascript
 
 OK- start a repo

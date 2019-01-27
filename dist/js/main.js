@@ -1,9 +1,9 @@
-// START GLOBAL VARS -----------------------------------------------------------
-// Basic variable declaration - keep track of how many of each item we currently own, and how much the new ones should cost.
+// START GLOBAL letS -----------------------------------------------------------
+// Basic letiable declaration - keep track of how many of each item we currently own, and how much the new ones should cost.
 /*
 Data structure should be splitting stuff into what is owned by what.
 */
-var gameData = {
+let gameData = {
   clickPower: 1,
   counters: {
     numSmallBoxes: 0,
@@ -231,7 +231,7 @@ var gameData = {
 };
 
 
-// END GLOBAL VARS -------------------------------------------------------------
+// END GLOBAL letS -------------------------------------------------------------
 
 // START AUX FUNCTIONS ---------------------------------------------------------
 
@@ -240,9 +240,9 @@ var gameData = {
 Object.byString = function (o, s) {
   s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
   s = s.replace(/^\./, '');           // strip a leading dot
-  var a = s.split('.');
-  for (var i = 0, n = a.length; i < n; ++i) {
-    var k = a[i];
+  let a = s.split('.');
+  for (let i = 0, n = a.length; i < n; ++i) {
+    let k = a[i];
     if (k in o) {
       o = o[k];
     } else {
@@ -263,7 +263,7 @@ function hideElement(elementId) {
 
 function conditionallyUpdateInterfaceElement(elementId, objectStringKey) {
   // type can be either counter or worker
-  var objectValue = Object.byString(gameData, objectStringKey);
+  let objectValue = Object.byString(gameData, objectStringKey);
 
   if (document.getElementById(elementId).innerHTML != objectValue) {
     document.getElementById(elementId).innerHTML = objectValue;
@@ -371,15 +371,15 @@ function hireWorker(workerType) {
 
 function buyUpgrade(upgradeName, parentListElement) {
   // get the currency and cost
-  var currencyUsedforPurchase = gameData['upgrades'][upgradeName]['currency'];
-  var costOfTheUpgrade = gameData['upgrades'][upgradeName]['cost'];
+  let currencyUsedforPurchase = gameData['upgrades'][upgradeName]['currency'];
+  let costOfTheUpgrade = gameData['upgrades'][upgradeName]['cost'];
 
   // perform the currency deduction and register the purchase
   gameData['upgrades'][upgradeName]['purchased'] = true;
   gameData['counters'][currencyUsedforPurchase] -= costOfTheUpgrade;
 
   // execute the effect function
-  // var upgradeEffect = 
+  // let upgradeEffect = 
   gameData['upgrades'][upgradeName].effect.call();
 
   document.getElementById(parentListElement).classList.add('really-invisible-stuff');
@@ -388,7 +388,7 @@ function buyUpgrade(upgradeName, parentListElement) {
 
 // do not click thing
 function doNotClick(thisElement) {
-    var arrTexts = [
+    let arrTexts = [
         'Why did you click here?',
         'You\'re not supposed to click again.',
         'Stop clicking.',
@@ -456,7 +456,7 @@ function saveTheGame() {
 }
 
 function loadTheGame(silent) {
-    var savegame = JSON.parse(localStorage.getItem('boxGameSave'));
+    let savegame = JSON.parse(localStorage.getItem('boxGameSave'));
     if (savegame) {
         gameData = savegame;
     } else {
@@ -470,7 +470,7 @@ function loadTheGame(silent) {
 }
 
 function deleteTheGame() {
-    var areYouSure = confirm('Are you sure you want to delete your save?')
+    let areYouSure = confirm('Are you sure you want to delete your save?')
     if (areYouSure) {
         localStorage.removeItem('boxGameSave');
         location.reload();
@@ -511,11 +511,11 @@ function interfaceIO() {
   // now uses the io object to loop through
   // added another if to only do this for visible elements too
 
-  var arrayIo = gameData.io;
+  let arrayIo = gameData.io;
 
-  for (var elementIo = 0; elementIo < arrayIo.length; elementIo++) {
+  for (let elementIo = 0; elementIo < arrayIo.length; elementIo++) {
 
-    var thresholdTest = arrayIo[elementIo].condition.call({ gameData });
+    let thresholdTest = arrayIo[elementIo].condition.call({ gameData });
 
     if (thresholdTest) {
       // if we can click the button
@@ -533,11 +533,11 @@ function interfaceIO() {
 
 function interfaceDisplayer() {
 
-  var arrayMilestones = gameData.milestones;
+  let arrayMilestones = gameData.milestones;
 
-  for (var milestone = 0; milestone < arrayMilestones.length; milestone++) {
+  for (let milestone = 0; milestone < arrayMilestones.length; milestone++) {
     if (arrayMilestones[milestone].triggered) {
-      for (var interfaceElement = 0; interfaceElement < arrayMilestones[milestone].elements.length; interfaceElement++) {
+      for (let interfaceElement = 0; interfaceElement < arrayMilestones[milestone].elements.length; interfaceElement++) {
         showNewElement(arrayMilestones[milestone].elements[interfaceElement]);
         // if (arrayMilestones[milestone].elements[interfaceElement].offsetParent) {
         // }
@@ -557,11 +557,11 @@ This crazy function is a way to work around that!
 Now better thanks to Farcaller who helped me kill the Eval()
 */
 function milestoneTriggerer() {
-  for (var index = 0; index < gameData.milestones.length; index++) {
+  for (let index = 0; index < gameData.milestones.length; index++) {
 
     if (!gameData.milestones[index].triggered) {      
 
-      var thresholdTest = gameData.milestones[index].condition.call({gameData});
+      let thresholdTest = gameData.milestones[index].condition.call({gameData});
 
       if (thresholdTest) {
         gameData.milestones[index].triggered = true;
