@@ -40,5 +40,3 @@ Lots of things, but I'm trying to keep it small and objective.
 - learn sass, scss or less
 - maybe redo everything to learn a framework
 - have fun!
-
-Can you hear me typing? Probably this sounds better than the previous times!

@@ -50,7 +50,11 @@ OK- add upgrades
 OK- improve the way the hire buttons are rendered because they're literally going crazy thanks to the icon
 . and the worker counters too because they don't need to be updated all the goddamn time.
 
-- completely rework the milestone function because its dumb to copy and paste the same damn code
+OK- completely rework the milestone function (interfaceDisplayer) because its dumb to copy and paste the same damn code
+. change the name property of the milestones to an elements array or something
+. this new property will contain which elements will be displayed upon milestone completion
+
+- do the same with the interfaceIO function
 
 - finish implementing meowconomy with a window-long progress bar
 

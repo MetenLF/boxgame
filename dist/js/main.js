@@ -106,6 +106,10 @@ var gameData = {
     {
       name: 'boxCounter',
       triggered: false,
+      elements: [
+        'statistics-card',
+        'counter-small-boxes'
+      ],
       condition: {
         resource: 'gameData.counters.numSmallBoxes',
         comparison: '>=',
@@ -115,6 +119,9 @@ var gameData = {
     {
       name: 'boxFactory',
       triggered: false,
+      elements: [
+        'box-factory'
+      ],
       condition: {
         resource: 'gameData.counters.numSmallBoxes',
         comparison: '>=',
@@ -124,6 +131,9 @@ var gameData = {
     {
       name: 'smallBoxMaker',
       triggered: false,
+      elements: [
+        'counter-box-makers'
+      ],
       condition: {
         resource: 'gameData.workers.boxMakers.amount',
         comparison: '>=',
@@ -133,6 +143,9 @@ var gameData = {
     {
       name: 'boxBakerButton',
       triggered: false,
+      elements: [
+        'li-hire-box-baker'
+      ],
       condition: {
         resource: 'gameData.counters.numSmallBoxes',
         comparison: '>=',
@@ -142,6 +155,9 @@ var gameData = {
     {
       name: 'boxBakerCounter',
       triggered: false,
+      elements: [
+        'counter-box-bakers'
+      ],
       condition: {
         resource: 'gameData.workers.boxBakers.amount',
         comparison: '>=',
@@ -151,6 +167,9 @@ var gameData = {
     {
       name: 'bakedBoxCounter',
       triggered: false,
+      elements: [
+        'counter-baked-boxes'
+      ],
       condition: {
         resource: 'gameData.counters.numBakedBoxes',
         comparison: '>=',
@@ -160,6 +179,9 @@ var gameData = {
     {
       name: 'poxWakerButton',
       triggered: false,
+      elements: [
+        'li-hire-pox-waker'
+      ],
       condition: {
         resource: 'gameData.counters.numBakedBoxes',
         comparison: '>=',
@@ -169,6 +191,9 @@ var gameData = {
     {
       name: 'poxWakerCounter',
       triggered: false,
+      elements: [
+        'counter-pox-wakers'
+      ],
       condition: {
         resource: 'gameData.workers.poxWakers.amount',
         comparison: '>=',
@@ -178,6 +203,9 @@ var gameData = {
     {
       name: 'wakedPoxCounter',
       triggered: false,
+      elements: [
+        'counter-waked-poxes'
+      ],
       condition: {
         resource: 'gameData.counters.numPoxWaked',
         comparison: '>=',
@@ -187,6 +215,9 @@ var gameData = {
     {
       name: 'upgradesCard',
       triggered: false,
+      elements: [
+        'upgrades-card'
+      ],
       condition: {
         resource: 'gameData.counters.numBakedBoxes',
         comparison: '>=',
@@ -196,6 +227,9 @@ var gameData = {
     {
       name: 'upgradeMarketing',
       triggered: false,
+      elements: [
+        'upgrade-marketing'
+      ],
       condition: {
         resource: 'gameData.counters.numBakedBoxes',
         comparison: '>=',
@@ -205,6 +239,9 @@ var gameData = {
     {
       name: 'upgradeBoxedCats',
       triggered: false,
+      elements: [
+        'upgrade-boxed-cats'
+      ],
       condition: {
         resource: 'gameData.counters.numBakedBoxes',
         comparison: '>=',
@@ -214,6 +251,9 @@ var gameData = {
     {
       name: 'upgradeDiseaseVectors',
       triggered: false,
+      elements: [
+        'upgrade-disease-vectors'
+      ],
       condition: {
         resource: 'gameData.counters.numPoxWaked',
         comparison: '>=',
@@ -223,6 +263,9 @@ var gameData = {
     {
       name: 'upgradeDyslexia',
       triggered: false,
+      elements: [
+        'upgrade-dyslexia'
+      ],
       condition: {
         resource: 'gameData.counters.numPoxWaked',
         comparison: '>=',
@@ -526,75 +569,16 @@ function interfaceIO() {
 
 function interfaceDisplayer() {
 
-  // show counter if any boxes were made
-  if (gameData.milestones[0].triggered) {
-    showNewElement('statistics-card');
-    showNewElement('counter-small-boxes');
-  }
+  var arrayMilestones = gameData.milestones;
 
-  // show factory and box maker button if we have at least 10 boxes
-  if (gameData.milestones[1].triggered) {
-    showNewElement('box-factory');
-  }
-
-  // show box makers counter if we have at least 1 box maker
-  if (gameData.milestones[2].triggered) {
-    showNewElement('counter-box-makers');
-  }
-
-  // show box baker button if we have at least 25 boxes or something
-  if (gameData.milestones[3].triggered) {
-    showNewElement('li-hire-box-baker');
-  }
-
-  // show box bakers counter if we have at least 1 box baker
-  if (gameData.milestones[4].triggered) {
-    showNewElement('counter-box-bakers');
-  }
-
-  // show baked boxes counter if we have at least 1 baked box
-  if (gameData.milestones[5].triggered) {
-    showNewElement('counter-baked-boxes');
-  }
-
-  // show pox waker button if we have at least 25 baked boxes
-  if (gameData.milestones[6].triggered) {
-    showNewElement('li-hire-pox-waker');
-  }
-
-  // show waked pox counter if we have at least 1 waked pox
-  if (gameData.milestones[7].triggered) {
-    showNewElement('counter-pox-wakers');
-  }
-
-  // show waked pox counter if we have at least 1 waked pox
-  if (gameData.milestones[8].triggered) {
-    showNewElement('counter-waked-poxes');
-  }
-
-  // show the upgrades card and the first upgrade as well when we have at least 10 baked boxes
-  if (gameData.milestones[9].triggered) {
-    showNewElement('upgrades-card');
-  }
-
-  // show the marketing upgrade when we have at least 100 baked boxes
-  if (gameData.milestones[10].triggered) {
-    showNewElement('upgrade-marketing');
-  }
-
-  // show another upgrade item
-  if (gameData.milestones[11].triggered) {
-    showNewElement('upgrade-boxed-cats');
-  }
-
-  // show another upgrade item
-  if (gameData.milestones[12].triggered) {
-    showNewElement('upgrade-disease-vectors');
-  }
-
-  // show another upgrade item
-  if (gameData.milestones[13].triggered) {
-    showNewElement('upgrade-dyslexia');
+  for (var milestone = 0; milestone < arrayMilestones.length; milestone++) {
+    if (arrayMilestones[milestone].triggered) {
+      for (var interfaceElement = 0; interfaceElement < arrayMilestones[milestone].elements.length; interfaceElement++) {
+        showNewElement(arrayMilestones[milestone].elements[interfaceElement]);
+        
+      }
+    }
+    
   }
     
 }
