@@ -54,7 +54,13 @@ OK- completely rework the milestone function (interfaceDisplayer) because its du
 . change the name property of the milestones to an elements array or something
 . this new property will contain which elements will be displayed upon milestone completion
 
+OK- OH MY GOD TURNS OUT EVAL() IS THE JAVASCRIPT BABA YAGA OH GOD OH FUCK I NEED TO REMOVE IT
+
 - do the same with the interfaceIO function
+
+- start using lets instead of vars
+
+- see if I can use arrow functions like a goddamn functional 2019 javascript developer
 
 - finish implementing meowconomy with a window-long progress bar
 

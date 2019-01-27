@@ -40,3 +40,7 @@ Lots of things, but I'm trying to keep it small and objective.
 - learn sass, scss or less
 - maybe redo everything to learn a framework
 - have fun!
+
+## Special thanks
+
+To farcaller for raging on me and teaching me useful stuff.

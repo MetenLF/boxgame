@@ -39,6 +39,40 @@ var gameData = {
       speed: 0.000001
     }
   },
+  io: [
+    {
+      elementId: 'btn-hire-box-maker',
+      condition: function () { return this.gameData.counters.numSmallBoxes >= gameData.workers.boxMakers.cost; },
+    },
+    {
+      elementId: 'btn-hire-box-baker',
+      condition: function () { return this.gameData.counters.numSmallBoxes >= gameData.workers.boxBakers.cost; }
+    },
+    {
+      elementId: 'btn-hire-pox-waker',
+      condition: function () { return this.gameData.counters.numSmallBoxes >= gameData.workers.poxWakers.cost; }
+    },
+    {
+      elementId: 'upgrade-btn-box-stacking',
+      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxStacking.cost; }
+    },
+    {
+      elementId: 'upgrade-btn-marketing',
+      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.marketing.cost; }
+    },
+    {
+      elementId: 'upgrade-btn-boxed-cats',
+      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxedCats.cost; }
+    },
+    {
+      elementId: 'upgrade-btn-disease-vectors',
+      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.diseaseVectors.cost; }
+    },
+    {
+      elementId: 'upgrade-btn-dyslexia',
+      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.dyslexia.cost; }
+    }
+  ],
   upgrades: {
     boxStacking: {
       bought: false,
@@ -46,9 +80,7 @@ var gameData = {
       currency: 'numBakedBoxes',
       effect: {
         function: 'incrementClickPower',
-        params: [
-          3
-        ]
+        params: [3]
       }
     },
     marketing: {
@@ -57,10 +89,7 @@ var gameData = {
       currency: 'numBakedBoxes',
       effect: {
         function: 'meowConomy',
-        params: [
-          'phase1',
-          'activate'
-        ]
+        params: ['phase1', 'activate']
       }
     },
     boxedCats: {
@@ -69,11 +98,7 @@ var gameData = {
       currency: 'numBakedBoxes',
       effect: {
         function: 'meowConomy',
-        params: [
-          'phase1',
-          'increment',
-          1
-        ]
+        params: ['phase1', 'increment', 1]
       }
     },
     diseaseVectors: {
@@ -82,10 +107,7 @@ var gameData = {
       currency: 'numPoxWaked',
       effect: {
         function: 'meowPocalypse',
-        params: [
-          'phase2',
-          'activate'
-        ]
+        params: ['phase2', 'activate']
       }
     },
     dyslexia: {
@@ -94,183 +116,93 @@ var gameData = {
       currency: 'numPoxWaked',
       effect: {
         function: 'meowPocalypse',
-        params: [
-          'phase2',
-          'transform',
-          'rats'
-        ]
+        params: ['phase2', 'transform', 'rats']
       }
     }
   },
   milestones: [
     {
-      name: 'boxCounter',
       triggered: false,
-      elements: [
-        'statistics-card',
-        'counter-small-boxes'
-      ],
-      condition: {
-        resource: 'gameData.counters.numSmallBoxes',
-        comparison: '>=',
-        threshold: 1
-      }
+      elements: ['statistics-card', 'counter-small-boxes'],
+      condition: function () { return this.gameData.counters.numSmallBoxes >= 1; }
     },
+    // below is the crap we neeedit fixed
     {
-      name: 'boxFactory',
       triggered: false,
-      elements: [
-        'box-factory'
-      ],
-      condition: {
-        resource: 'gameData.counters.numSmallBoxes',
-        comparison: '>=',
-        threshold: 10
-      }
+      elements: ['box-factory'],
+      condition: function () { return this.gameData.counters.numSmallBoxes >= 10; }
     },
     {
       name: 'smallBoxMaker',
       triggered: false,
-      elements: [
-        'counter-box-makers'
-      ],
-      condition: {
-        resource: 'gameData.workers.boxMakers.amount',
-        comparison: '>=',
-        threshold: 1
-      }
+      elements: ['counter-box-makers'],
+      condition: function () { return this.gameData.workers.boxMakers.amount >= 1; }
     },
     {
       name: 'boxBakerButton',
       triggered: false,
-      elements: [
-        'li-hire-box-baker'
-      ],
-      condition: {
-        resource: 'gameData.counters.numSmallBoxes',
-        comparison: '>=',
-        threshold: 25
-      }
+      elements: ['li-hire-box-baker'],
+      condition: function () { return this.gameData.counters.numSmallBoxes >= 25; }
     },
     {
       name: 'boxBakerCounter',
       triggered: false,
-      elements: [
-        'counter-box-bakers'
-      ],
-      condition: {
-        resource: 'gameData.workers.boxBakers.amount',
-        comparison: '>=',
-        threshold: 1
-      }
+      elements: ['counter-box-bakers'],
+      condition: function () { return this.gameData.workers.boxBakers.amount >= 1; }
     },
     {
       name: 'bakedBoxCounter',
       triggered: false,
-      elements: [
-        'counter-baked-boxes'
-      ],
-      condition: {
-        resource: 'gameData.counters.numBakedBoxes',
-        comparison: '>=',
-        threshold: 1
-      }
+      elements: ['counter-baked-boxes'],
+      condition: function () { return this.gameData.counters.numBakedBoxes >= 1; }
     },
     {
       name: 'poxWakerButton',
       triggered: false,
-      elements: [
-        'li-hire-pox-waker'
-      ],
-      condition: {
-        resource: 'gameData.counters.numBakedBoxes',
-        comparison: '>=',
-        threshold: 25
-      }
+      elements: ['li-hire-pox-waker'],
+      condition: function () { return this.gameData.counters.numBakedBoxes >= 25; }
     },
     {
       name: 'poxWakerCounter',
       triggered: false,
-      elements: [
-        'counter-pox-wakers'
-      ],
-      condition: {
-        resource: 'gameData.workers.poxWakers.amount',
-        comparison: '>=',
-        threshold: 1
-      }
+      elements: ['counter-pox-wakers'],
+      condition: function () { return this.gameData.workers.poxWakers.amount >= 1; }
     },
     {
       name: 'wakedPoxCounter',
       triggered: false,
-      elements: [
-        'counter-waked-poxes'
-      ],
-      condition: {
-        resource: 'gameData.counters.numPoxWaked',
-        comparison: '>=',
-        threshold: 1
-      }
+      elements: ['counter-waked-poxes'],
+      condition: function () { return this.gameData.counters.numPoxWaked >= 1; }
     },
     {
       name: 'upgradesCard',
       triggered: false,
-      elements: [
-        'upgrades-card'
-      ],
-      condition: {
-        resource: 'gameData.counters.numBakedBoxes',
-        comparison: '>=',
-        threshold: 50
-      }
+      elements: ['upgrades-card'],
+      condition: function () { return this.gameData.counters.numBakedBoxes >= 50; }
     },
     {
       name: 'upgradeMarketing',
       triggered: false,
-      elements: [
-        'upgrade-marketing'
-      ],
-      condition: {
-        resource: 'gameData.counters.numBakedBoxes',
-        comparison: '>=',
-        threshold: 100
-      }
+      elements: ['upgrade-marketing'],
+      condition: function () { return this.gameData.counters.numBakedBoxes >= 100; }
     },
     {
       name: 'upgradeBoxedCats',
       triggered: false,
-      elements: [
-        'upgrade-boxed-cats'
-      ],
-      condition: {
-        resource: 'gameData.counters.numBakedBoxes',
-        comparison: '>=',
-        threshold: 375
-      }
+      elements: ['upgrade-boxed-cats'],
+      condition: function () { return this.gameData.counters.numBakedBoxes >= 375; }
     },
     {
       name: 'upgradeDiseaseVectors',
       triggered: false,
-      elements: [
-        'upgrade-disease-vectors'
-      ],
-      condition: {
-        resource: 'gameData.counters.numPoxWaked',
-        comparison: '>=',
-        threshold: 5
-      }
+      elements: ['upgrade-disease-vectors'],
+      condition: function () { return this.gameData.counters.numPoxWaked >= 50; }
     },
     {
       name: 'upgradeDyslexia',
       triggered: false,
-      elements: [
-        'upgrade-dyslexia'
-      ],
-      condition: {
-        resource: 'gameData.counters.numPoxWaked',
-        comparison: '>=',
-        threshold: 100
-      }
+      elements: ['upgrade-dyslexia'],
+      condition: function () { return this.gameData.counters.numPoxWaked >= 100; }
     }
   ],
   achievements: {},
@@ -519,51 +451,28 @@ function priceUpdater() {
 }
 
 function interfaceIO() {
-  // TO-DO: rework this into a smarter function
   // Enable/disable the worker buttons based on our boxes
-  if (gameData.workers.boxMakers.cost > gameData.counters.numSmallBoxes) {
-    document.getElementById('btn-hire-box-maker').disabled = true;
-  } else {
-    document.getElementById('btn-hire-box-maker').disabled = false;
-  }
+  // now uses the io object to loop through
+  // added another if to only do this for visible elements too
 
-  if (gameData.workers.boxBakers.cost > gameData.counters.numSmallBoxes) {
-    document.getElementById('btn-hire-box-baker').disabled = true;
-  } else {
-    document.getElementById('btn-hire-box-baker').disabled = false;
-  }
+  var arrayIo = gameData.io;
 
-  if (gameData.workers.poxWakers.cost > gameData.counters.numSmallBoxes) {
-    document.getElementById('btn-hire-pox-waker').disabled = true;
-  } else {
-    document.getElementById('btn-hire-pox-waker').disabled = false;
-  }
+  for (var elementIo = 0; elementIo < arrayIo.length; elementIo++) {
 
-  // upgrade purchases below!
-  if (gameData.upgrades.boxStacking.cost > gameData.counters.numBakedBoxes) {
-    document.getElementById('upgrade-btn-box-stacking').disabled = true;
-  } else {
-    document.getElementById('upgrade-btn-box-stacking').disabled = false;
-  }
-  if (gameData.upgrades.marketing.cost > gameData.counters.numBakedBoxes) {
-    document.getElementById('upgrade-btn-marketing').disabled = true;
-  } else {
-    document.getElementById('upgrade-btn-marketing').disabled = false;
-  }
-  if (gameData.upgrades.boxedCats.cost > gameData.counters.numBakedBoxes) {
-    document.getElementById('upgrade-btn-boxed-cats').disabled = true;
-  } else {
-    document.getElementById('upgrade-btn-boxed-cats').disabled = false;
-  }
-  if (gameData.upgrades.diseaseVectors.cost > gameData.counters.numPoxWaked) {
-    document.getElementById('upgrade-btn-disease-vectors').disabled = true;
-  } else {
-    document.getElementById('upgrade-btn-disease-vectors').disabled = false;
-  }
-  if (gameData.upgrades.dyslexia.cost > gameData.counters.numPoxWaked) {
-    document.getElementById('upgrade-btn-dyslexia').disabled = true;
-  } else {
-    document.getElementById('upgrade-btn-dyslexia').disabled = false;
+    if (arrayIo[elementIo].elementId.offsetParent) {
+      var thresholdTest = arrayIo[elementIo].condition.call({ gameData });
+  
+      if (thresholdTest) {
+        // if we can click the button
+        document.getElementById(arrayIo[elementIo].elementId).disabled = false;
+        
+      } else {
+        // if we can't click the butten
+        document.getElementById(arrayIo[elementIo].elementId).disabled = true;
+  
+      }
+
+    }
   }
 }
 
@@ -575,7 +484,8 @@ function interfaceDisplayer() {
     if (arrayMilestones[milestone].triggered) {
       for (var interfaceElement = 0; interfaceElement < arrayMilestones[milestone].elements.length; interfaceElement++) {
         showNewElement(arrayMilestones[milestone].elements[interfaceElement]);
-        
+        // if (arrayMilestones[milestone].elements[interfaceElement].offsetParent) {
+        // }
       }
     }
     
@@ -589,23 +499,19 @@ boxes and then saves the game, when they reload it, the interface of the
 unlocked element will disappear, making it very confusing.
 
 This crazy function is a way to work around that!
+Now better thanks to Farcaller who helped me kill the Eval()
 */
 function milestoneTriggerer() {
   for (var index = 0; index < gameData.milestones.length; index++) {
 
-    if (!gameData.milestones[index].triggered) {
-      
-      var interpretedCondition = [
-        'if (',
-        gameData.milestones[index].condition.resource,
-        gameData.milestones[index].condition.comparison,
-        gameData.milestones[index].condition.threshold,
-        '){',
-        'gameData.milestones[index].triggered = true;',
-        '}'
-      ];
+    if (!gameData.milestones[index].triggered) {      
 
-      eval(interpretedCondition.join(''));
+      var thresholdTest = gameData.milestones[index].condition.call({gameData});
+
+      if (thresholdTest) {
+        gameData.milestones[index].triggered = true;
+      }
+
     }
     
   }
