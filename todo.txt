@@ -72,6 +72,8 @@ WHEN I NEED TO I WILL DO THIS- see if I can use arrow functions like a goddamn f
 
 OK- finish implementing meowconomy with a window-long progress bar
 
+- Somehow I broke the loading game. Fix this.
+
 - finish implementing meowpocalypse with another progress bar that supersets the previous one
 . this warrants a small rework of existing stuff to compensate for any faulty logic and progress 
 . also will need some more upgrades for speed
@@ -83,9 +85,9 @@ OK- finish implementing meowconomy with a window-long progress bar
 
 - Add two tabs on the upgrades card: one shows upgrades the player can buy (based on progression) and then other one a list of bought upgrades
 
-- add cats. They like boxes
+OK- add cats. They like boxes
 
-- cats trigger a progress bar called Meowconomy that will increase based on the number of boxes you have stored
+OK- cats trigger a progress bar called Meowconomy that will increase based on the number of boxes you have stored
 
 NO IDEA WHAT TO DO HERE- apparently our game is using about 10% CPU so what the hell. Look into optimization.
 
