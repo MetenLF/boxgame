@@ -221,6 +221,12 @@ let gameData = {
       triggered: false,
       elements: ['upgrade-dyslexia'],
       condition: function () { return this.gameData.counters.numPoxWaked >= 100; }
+    },
+    {
+      name: 'showMeowconomyProgressBar',
+      triggered: false,
+      elements: ['meowconomy-progress'],
+      condition: function () { return this.gameData.apocalypse.phase1.active == true; }
     }
   ],
   achievements: {},
@@ -276,20 +282,21 @@ function conditionallyUpdateInterfaceElement(elementId, objectStringKey) {
 // START CUSTOM UPGRADE FUNCTIONS ----------------------------------------------
 
 function incrementClickPower (amount, method) {
+  // TO-DO: make this less dumb
   gameData.clickPower += amount;
 
   switch (method) {
     case 'stack':
       document
         .getElementById('make-small-boxes')
-        .innerHTML = 'Make a small box <br><i class="fa fa-cube"></i><br><i class="fa fa-cube"></i><br><i class="fa fa-cube"></i><br><i class="fa fa-cube"></i>';
+        .innerHTML = 'Make small boxes <br><i class="fa fa-cube"></i><br><i class="fa fa-cube"></i><br><i class="fa fa-cube"></i><br><i class="fa fa-cube"></i>';
       
       break;
 
     case 'shelf':
       document
         .getElementById('make-small-boxes')
-        .innerHTML = `Make a small box 
+        .innerHTML = `Make small boxes 
           <br> 
           <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i> <i class="fa fa-cube"></i>
           <br>
@@ -305,8 +312,7 @@ function incrementClickPower (amount, method) {
     case 'compact':
       document
         .getElementById('make-small-boxes')
-        .innerHTML =
-          `Make a small box 
+        .innerHTML = `Make small boxes
           <br> 
           <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i> <i class="fa fa-2x fa-cubes"></i>
           <br>
@@ -548,6 +554,29 @@ function interfaceDisplayer() {
     
 }
 
+function meowconomyUpdater() {
+  // this updates the progress bar towards the endgame
+  // depends on which phase is active. Its kinda pseudo-milestone.
+  if (gameData.apocalypse.phase1.active && !gameData.apocalypse.phase2.active) {
+    // phase 1 is green
+    gameData.apocalypse.phase1.progress += gameData.apocalypse.phase1.speed;
+    document.getElementById('meowconomy-bar').style.width = Math.floor(gameData.apocalypse.phase1.progress) + '%';
+
+    // type can be either counter or worker
+
+    if (document.getElementById('meowconomy-speed').innerHTML != gameData.apocalypse.phase1.speed * 100) {
+      document.getElementById('meowconomy-speed').innerHTML = gameData.apocalypse.phase1.speed * 100;
+
+    }
+
+  } else if (gameData.apocalypse.phase1.active && gameData.apocalypse.phase2.active) {
+    // phase 2 is red. Long if just to guarantee consistency
+  } 
+  
+
+  
+}
+
 /*
 this exists so when a player reaches 9001 boxes and buys an upgrade worth 9000 
 boxes and then saves the game, when they reload it, the interface of the
@@ -584,6 +613,7 @@ window.setInterval(function () {
   interfaceIO();
   interfaceDisplayer();
   milestoneTriggerer();
+  meowconomyUpdater()
 }, 10);
 
 // END INTERVAL FUNCTION -------------------------------------------------------

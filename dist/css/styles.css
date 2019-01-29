@@ -1,6 +1,7 @@
 /* dumb fix */
 body {
   padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 .invisible-stuff {
@@ -13,6 +14,13 @@ body {
 
 .the-box-picture {
     max-width: 200px;
+}
+
+/* meowconomy progress bar */
+#meowconomy-progress { 
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
 }
 
 /* do not click stuff*/

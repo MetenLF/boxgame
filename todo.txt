@@ -66,13 +66,16 @@ OK- next click power upgrade should do the same thing but on a line, giving the 
 
 OK- one more click power upgrade should make the boxes more compact, thus changing the icon to cubes instead.
 
-- start using lets instead of vars
+OK- start using lets instead of vars
 
-- see if I can use arrow functions like a goddamn functional 2019 javascript developer
+WHEN I NEED TO I WILL DO THIS- see if I can use arrow functions like a goddamn functional 2019 javascript developer
 
-- finish implementing meowconomy with a window-long progress bar
+OK- finish implementing meowconomy with a window-long progress bar
 
 - finish implementing meowpocalypse with another progress bar that supersets the previous one
+. this warrants a small rework of existing stuff to compensate for any faulty logic and progress 
+. also will need some more upgrades for speed
+. and a limit of 100 to the progress to trigger the endgame
 
 - rebalance the whole game 
 
