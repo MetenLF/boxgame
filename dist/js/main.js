@@ -31,12 +31,12 @@ let gameData = {
     phase1: {
       active: false,
       progress: 0,
-      speed: 0.00001
+      speed: 0.00001 // initial should be 0.00001
     },
     phase2: {
       active: false,
       progress: 0,
-      speed: 0.000001
+      speed: 0.000001 // initial should be 0.000001
     }
   },
   io: [
@@ -483,6 +483,11 @@ function deleteTheGame() {
     }
 }
 
+// necessary for method persistence between saves. Will be called by both document.ready and loadTheGame functions
+function addMethods () {
+
+}
+
 // END INTERFACE TRIGGERED FUNCTIONS -------------------------------------------
 
 // START INTERVAL MANAGERS -----------------------------------------------------
@@ -610,14 +615,49 @@ function milestoneTriggerer() {
 window.setInterval(function () {
   counterUpdater();
   priceUpdater();
-  interfaceIO();
   interfaceDisplayer();
   milestoneTriggerer();
   meowconomyUpdater()
+  interfaceIO();
 }, 10);
 
 // END INTERVAL FUNCTION -------------------------------------------------------
 
+// this function here only to test how to add a method to an object. It works!
+function testAddMethod () {
+  gameData.etc.condition = function () { return this.gameData.apocalypse.phase1.active == true; }
+}
+
+function testAssign() {
+  let savegame = JSON.parse(localStorage.getItem('boxGameSave'));
+
+  // This is an assign function that copies full descriptors
+  function isObject(item) {
+    return (item && typeof item === 'object' && !Array.isArray(item));
+  }
+  
+  function mergeDeep(target, ...sources) {
+    if (!sources.length) return target;
+    const source = sources.shift();
+
+    if (isObject(target) && isObject(source)) {
+      for (const key in source) {
+        if (isObject(source[key])) {
+          if (!target[key]) Object.assign(target, { [key]: {} });
+          mergeDeep(target[key], source[key]);
+        } else {
+          Object.assign(target, { [key]: source[key] });
+        }
+      }
+    }
+
+    return mergeDeep(target, ...sources);
+  }
+
+  var gameData = mergeDeep(gameData, savegame);
+  console.log(gameData);
+  
+}
 // YE POOR LOAD FUNCTION -------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
   console.log("ready!");

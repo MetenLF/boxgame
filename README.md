@@ -21,6 +21,7 @@ Lots of things, but I'm trying to keep it small and objective.
 - [x] **values:** a rate of progression
 - [x] **testing utilities:** because we'll really need them
 - [x] **upgrades:** to make stuff more fun!
+- [ ] **saving and loading the game:** staple feature of any game!
 - [ ] **some progression:** to give a direction to the player
 - [ ] **an alert box on the top or something to substitute window alerts:** to make the game more pleasant.
 
@@ -28,7 +29,7 @@ Lots of things, but I'm trying to keep it small and objective.
 
 - [x] **an easter egg:** because why not!
 - [ ] **new UI:** using something less canned than bootstrap, or at least learn a different visual library
-- [ ] **cats:** cats love boxes! Would become an alternative progression maybe!
+- [x] **cats:** cats love boxes! Would become an alternative progression maybe!
 - [ ] **evilDoNot:** the voice in my head tells me stubborn people should have their save file deleted.
 - [ ] **publish the game online using github pages or something:** ease of use
 

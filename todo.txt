@@ -73,15 +73,29 @@ WHEN I NEED TO I WILL DO THIS- see if I can use arrow functions like a goddamn f
 OK- finish implementing meowconomy with a window-long progress bar
 
 - Somehow I broke the loading game. Fix this.
+. turns out cloning javascript objects is not very straightforward. Hmm.
+. there's no effective storing javascript objects with methods. Unless I turn it all to a string and run eval, but eval is evil
+. SOLUTION: create another function that adds all the methods I need to the gameData whenever it gets loaded. Might also want to add this to an onload, so whenever a new game begins, it adds all the methods to the gameData but I don't need to write the functions twice. 
+- SOLUTION 2: gameData will always exist, but the savedata simply PLACES the values into the object, preserving its structure and methods entirely. This will require some actual javascript fuckery
 
 - finish implementing meowpocalypse with another progress bar that supersets the previous one
 . this warrants a small rework of existing stuff to compensate for any faulty logic and progress 
 . also will need some more upgrades for speed
 . and a limit of 100 to the progress to trigger the endgame
 
-- rebalance the whole game 
+The idea is: when the player reaches 100% meowconomy, it will stop progressing, so we need a trigger and a limiter.
+At 100% meowconomy, that's when Pox Wakers should show up, and thus the first pox waker upgrade begins the apocalypse bar.
+
+Reaching 100% apocalypse is game end.
 
 - create an end game state
+. almost there!
+
+- rebalance the whole game
+. more upgrades. Silly stuff like providing Amazon boxes and stuff like that too.
+. sync with endgame conditions
+. rebalance costs and increments
+
 
 - Add two tabs on the upgrades card: one shows upgrades the player can buy (based on progression) and then other one a list of bought upgrades
 
