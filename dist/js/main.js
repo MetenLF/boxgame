@@ -39,196 +39,167 @@ let gameData = {
       speed: 0.000001 // initial should be 0.000001
     }
   },
-  io: [
-    {
-      elementId: 'btn-hire-box-maker',
-      condition: function () { return this.gameData.counters.numSmallBoxes >= gameData.workers.boxMakers.cost; },
-    },
-    {
-      elementId: 'btn-hire-box-baker',
-      condition: function () { return this.gameData.counters.numSmallBoxes >= gameData.workers.boxBakers.cost; }
-    },
-    {
-      elementId: 'btn-hire-pox-waker',
-      condition: function () { return this.gameData.counters.numSmallBoxes >= gameData.workers.poxWakers.cost; }
-    },
-    {
-      elementId: 'upgrade-btn-box-stacking',
-      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxStacking.cost; }
-    },
-    {
-      elementId: 'upgrade-btn-box-shelving',
-      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxShelving.cost; }
-    },
-    {
-      elementId: 'upgrade-btn-box-compacting',
-      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxCompacting.cost; }
-    },
-    {
-      elementId: 'upgrade-btn-marketing',
-      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.marketing.cost; }
-    },
-    {
-      elementId: 'upgrade-btn-boxed-cats',
-      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxedCats.cost; }
-    },
-    {
-      elementId: 'upgrade-btn-disease-vectors',
-      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.diseaseVectors.cost; }
-    },
-    {
-      elementId: 'upgrade-btn-dyslexia',
-      condition: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.dyslexia.cost; }
-    }
-  ],
+  io: {
+    hireBoxMaker: 'btn-hire-box-maker',
+    hireBoxBaker: 'btn-hire-box-baker',
+    hirePoxWaker: 'btn-hire-pox-waker',
+    upgradeBoxStacking: 'upgrade-btn-box-stacking',
+    upgradeBoxShelving: 'upgrade-btn-box-shelving',
+    upgradeBoxCompacting: 'upgrade-btn-box-compacting',
+    upgradeMarketing: 'upgrade-btn-marketing',
+    upgradeBoxedCats: 'upgrade-btn-boxed-cats',
+    upgradeDiseaseVectors: 'upgrade-btn-disease-vectors',
+    upgradeDyslexia: 'upgrade-btn-dyslexia'
+  },
   upgrades: {
     boxStacking: {
       bought: false,
       cost: 100,
       currency: 'numBakedBoxes',
-      effect: function () { incrementClickPower(3, 'stack') }
+      
     },
     boxShelving: {
       bought: false,
       cost: 500,
       currency: 'numBakedBoxes',
-      effect: function () { incrementClickPower(12, 'shelf') }
+      
     },
     boxCompacting: {
       bought: false,
       cost: 1000,
       currency: 'numBakedBoxes',
-      effect: function () { incrementClickPower(48, 'compact') }
+      
     },
     marketing: {
       bought: false,
       cost: 200,
       currency: 'numBakedBoxes',
-      effect: function () { meowConomy('phase1', 'activate')}
+      
     },
     boxedCats: {
       bought: false,
       cost: 750,
       currency: 'numBakedBoxes',
-      effect: function () { meowConomy('phase1', 'increment', 1) }
+      
     },
     
     diseaseVectors: {
       bought: false,
       cost: 100,
       currency: 'numPoxWaked',
-      effect: function () { meowConomy('phase2', 'activate') }
+      
     },
     dyslexia: {
       bought: false,
       cost: 200,
       currency: 'numPoxWaked',
-      effect: function () { meowConomy('phase2', 'transform', 'rats') }
+      
     }
   },
-  milestones: [
+  milestones: {
+    smallBoxCounter:
     {
       triggered: false,
       elements: ['statistics-card', 'counter-small-boxes'],
-      condition: function () { return this.gameData.counters.numSmallBoxes >= 1; }
+
     },
-    // below is the crap we neeedit fixed
+    boxFactory:
     {
       triggered: false,
       elements: ['box-factory'],
-      condition: function () { return this.gameData.counters.numSmallBoxes >= 10; }
+
     },
+    smallBoxMaker:
     {
-      name: 'smallBoxMaker',
       triggered: false,
       elements: ['counter-box-makers'],
-      condition: function () { return this.gameData.workers.boxMakers.amount >= 1; }
+
     },
+    boxBakerButton:
     {
-      name: 'boxBakerButton',
       triggered: false,
       elements: ['li-hire-box-baker'],
-      condition: function () { return this.gameData.counters.numSmallBoxes >= 25; }
+
     },
+    boxBakerCounter:
     {
-      name: 'boxBakerCounter',
       triggered: false,
       elements: ['counter-box-bakers'],
-      condition: function () { return this.gameData.workers.boxBakers.amount >= 1; }
+
     },
+    bakedBoxCounter:
     {
-      name: 'bakedBoxCounter',
       triggered: false,
       elements: ['counter-baked-boxes'],
-      condition: function () { return this.gameData.counters.numBakedBoxes >= 1; }
+
     },
+    poxWakerButton:
     {
-      name: 'poxWakerButton',
       triggered: false,
       elements: ['li-hire-pox-waker'],
-      condition: function () { return this.gameData.counters.numBakedBoxes >= 25; }
+
     },
+    poxWakerCounter:
     {
-      name: 'poxWakerCounter',
       triggered: false,
       elements: ['counter-pox-wakers'],
-      condition: function () { return this.gameData.workers.poxWakers.amount >= 1; }
+
     },
+    wakedPoxCounter:
     {
-      name: 'wakedPoxCounter',
       triggered: false,
       elements: ['counter-waked-poxes'],
-      condition: function () { return this.gameData.counters.numPoxWaked >= 1; }
+
     },
+    upgradesCard:
     {
-      name: 'upgradesCard',
       triggered: false,
       elements: ['upgrades-card'],
-      condition: function () { return this.gameData.counters.numBakedBoxes >= 50; }
+
     },
+    upgradeBoxShelving:
     {
-      name: 'upgradeBoxShelving',
       triggered: false,
       elements: ['upgrade-box-shelving'],
-      condition: function () { return this.gameData.counters.numBakedBoxes >= 250; }
+
     },
+    upgradeBoxCompacting:
     {
-      name: 'upgradeBoxCompacting',
       triggered: false,
       elements: ['upgrade-box-compacting'],
-      condition: function () { return this.gameData.counters.numBakedBoxes >= 500; }
+
     },
+    upgradeMarketing:
     {
-      name: 'upgradeMarketing',
       triggered: false,
       elements: ['upgrade-marketing'],
-      condition: function () { return this.gameData.counters.numBakedBoxes >= 100; }
+
     },
+    upgradeBoxedCats:
     {
-      name: 'upgradeBoxedCats',
       triggered: false,
       elements: ['upgrade-boxed-cats'],
-      condition: function () { return this.gameData.counters.numBakedBoxes >= 375; }
+
     },
+    upgradeDiseaseVectors:
     {
-      name: 'upgradeDiseaseVectors',
       triggered: false,
       elements: ['upgrade-disease-vectors'],
-      condition: function () { return this.gameData.counters.numPoxWaked >= 50; }
+
     },
+    upgradeDyslexia:
     {
-      name: 'upgradeDyslexia',
       triggered: false,
       elements: ['upgrade-dyslexia'],
-      condition: function () { return this.gameData.counters.numPoxWaked >= 100; }
+
     },
+    showMeowconomyProgressBar:
     {
-      name: 'showMeowconomyProgressBar',
       triggered: false,
       elements: ['meowconomy-progress'],
-      condition: function () { return this.gameData.apocalypse.phase1.active == true; }
+
     }
-  ],
+  },
   achievements: {},
   etc: {
     doNot: 0,
@@ -236,8 +207,53 @@ let gameData = {
   }
 };
 
+const gameMethods = {
+  io: {
+    hireBoxMaker: function () { return this.gameData.counters.numSmallBoxes >= gameData.workers.boxMakers.cost; },
+    hireBoxBaker: function () { return this.gameData.counters.numSmallBoxes >= gameData.workers.boxBakers.cost; },
+    hirePoxWaker: function () { return this.gameData.counters.numSmallBoxes >= gameData.workers.poxWakers.cost; },
+    upgradeBoxStacking: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxStacking.cost; },
+    upgradeBoxShelving: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxShelving.cost; },
+    upgradeBoxCompacting: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxCompacting.cost; },
+    upgradeMarketing: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.marketing.cost; },
+    upgradeBoxedCats: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.boxedCats.cost; },
+    upgradeDiseaseVectors: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.diseaseVectors.cost; },
+    upgradeDyslexia: function () { return this.gameData.counters.numBakedBoxes >= gameData.upgrades.dyslexia.cost; }
 
-// END GLOBAL letS -------------------------------------------------------------
+  },
+  upgrades: {
+    boxStacking: function () { incrementClickPower(3, 'stack') },
+    boxShelving: function () { incrementClickPower(12, 'shelf') },
+    boxCompacting: function () { incrementClickPower(48, 'compact') },
+    marketing: function () { meowConomy('phase1', 'activate') },
+    boxedCats: function () { meowConomy('phase1', 'increment', 1) },
+    diseaseVectors: function () { meowConomy('phase2', 'activate') },
+    dyslexia: function () { meowConomy('phase2', 'transform', 'rats') }
+  },
+  milestones: {
+    smallBoxCounter: function () { return this.gameData.counters.numSmallBoxes >= 1; },
+    boxFactory: function () { return this.gameData.counters.numSmallBoxes >= 10; },
+    smallBoxMaker: function () { return this.gameData.workers.boxMakers.amount >= 1; },
+    boxBakerButton: function () { return this.gameData.counters.numSmallBoxes >= 25; },
+    boxBakerCounter: function () { return this.gameData.workers.boxBakers.amount >= 1; },
+    bakedBoxCounter: function () { return this.gameData.counters.numBakedBoxes >= 1; },
+    poxWakerButton: function () { return this.gameData.counters.numBakedBoxes >= 25; },
+    poxWakerCounter: function () { return this.gameData.workers.poxWakers.amount >= 1; },
+    wakedPoxCounter: function () { return this.gameData.counters.numPoxWaked >= 1; },
+    upgradesCard: function () { return this.gameData.counters.numBakedBoxes >= 50; },
+    upgradeBoxShelving: function () { return this.gameData.counters.numBakedBoxes >= 250; },
+    upgradeBoxCompacting: function () { return this.gameData.counters.numBakedBoxes >= 500; },
+    upgradeMarketing: function () { return this.gameData.counters.numBakedBoxes >= 100; },
+    upgradeBoxedCats: function () { return this.gameData.counters.numBakedBoxes >= 375; },
+    upgradeDiseaseVectors: function () { return this.gameData.counters.numPoxWaked >= 50; },
+    upgradeDyslexia: function () { return this.gameData.counters.numPoxWaked >= 100; },
+    showMeowconomyProgressBar: function () { return this.gameData.apocalypse.phase1.active == true; }
+
+  }
+}
+
+
+// END GLOBAL VARS -------------------------------------------------------------
 
 // START AUX FUNCTIONS ---------------------------------------------------------
 
@@ -385,8 +401,7 @@ function buyUpgrade(upgradeName, parentListElement) {
   gameData['counters'][currencyUsedforPurchase] -= costOfTheUpgrade;
 
   // execute the effect function
-  // let upgradeEffect = 
-  gameData['upgrades'][upgradeName].effect.call();
+  gameMethods['upgrades'][upgradeName].call();
 
   document.getElementById(parentListElement).classList.add('really-invisible-stuff');
 
@@ -522,39 +537,35 @@ function interfaceIO() {
   // now uses the io object to loop through
   // added another if to only do this for visible elements too
 
-  let arrayIo = gameData.io;
-
-  for (let elementIo = 0; elementIo < arrayIo.length; elementIo++) {
-
-    let thresholdTest = arrayIo[elementIo].condition.call({ gameData });
+  // rework
+  for (ioDataKey in gameMethods.io) {
+    let thresholdTest = gameMethods.io[ioDataKey].call({ gameData });
 
     if (thresholdTest) {
       // if we can click the button
-      document.getElementById(arrayIo[elementIo].elementId).disabled = false;
-      
+      document.getElementById(gameData.io[ioDataKey]).disabled = false;
     } else {
       // if we can't click the butten
-      document.getElementById(arrayIo[elementIo].elementId).disabled = true;
+      document.getElementById(gameData.io[ioDataKey]).disabled = true;
 
     }
-
     
   }
+
 }
 
 function interfaceDisplayer() {
+  // rework
+  for (let milestoneDataKey in gameData.milestones) {
+    if (gameMethods.milestones.hasOwnProperty(milestoneDataKey)) {
+      if (gameData.milestones[milestoneDataKey].triggered) {
+        for (let interfaceElement = 0; interfaceElement < gameData.milestones[milestoneDataKey].elements.length; interfaceElement++) {
+          showNewElement(gameData.milestones[milestoneDataKey].elements[interfaceElement]);
+        }
 
-  let arrayMilestones = gameData.milestones;
-
-  for (let milestone = 0; milestone < arrayMilestones.length; milestone++) {
-    if (arrayMilestones[milestone].triggered) {
-      for (let interfaceElement = 0; interfaceElement < arrayMilestones[milestone].elements.length; interfaceElement++) {
-        showNewElement(arrayMilestones[milestone].elements[interfaceElement]);
-        // if (arrayMilestones[milestone].elements[interfaceElement].offsetParent) {
-        // }
       }
+
     }
-    
   }
     
 }
@@ -577,9 +588,7 @@ function meowconomyUpdater() {
   } else if (gameData.apocalypse.phase1.active && gameData.apocalypse.phase2.active) {
     // phase 2 is red. Long if just to guarantee consistency
   } 
-  
 
-  
 }
 
 /*
@@ -591,18 +600,19 @@ This crazy function is a way to work around that!
 Now better thanks to Farcaller who helped me kill the Eval()
 */
 function milestoneTriggerer() {
-  for (let index = 0; index < gameData.milestones.length; index++) {
+  for (let milestoneDataKey in gameData.milestones){
+    if (gameMethods.milestones.hasOwnProperty(milestoneDataKey)) {
+      if (!gameData.milestones[milestoneDataKey].triggered) {
+        // if not triggered, search for its function using milestoneDataKey
+        let thresholdTest = gameMethods.milestones[milestoneDataKey].call({ gameData });
+        
+        if (thresholdTest) {
+          gameData.milestones[milestoneDataKey].triggered = true;
+        }
 
-    if (!gameData.milestones[index].triggered) {      
-
-      let thresholdTest = gameData.milestones[index].condition.call({gameData});
-
-      if (thresholdTest) {
-        gameData.milestones[index].triggered = true;
       }
 
     }
-    
   }
 
 }
@@ -623,44 +633,9 @@ window.setInterval(function () {
 
 // END INTERVAL FUNCTION -------------------------------------------------------
 
-// this function here only to test how to add a method to an object. It works!
-function testAddMethod () {
-  gameData.etc.condition = function () { return this.gameData.apocalypse.phase1.active == true; }
-}
-
-function testAssign() {
-  let savegame = JSON.parse(localStorage.getItem('boxGameSave'));
-
-  // This is an assign function that copies full descriptors
-  function isObject(item) {
-    return (item && typeof item === 'object' && !Array.isArray(item));
-  }
-  
-  function mergeDeep(target, ...sources) {
-    if (!sources.length) return target;
-    const source = sources.shift();
-
-    if (isObject(target) && isObject(source)) {
-      for (const key in source) {
-        if (isObject(source[key])) {
-          if (!target[key]) Object.assign(target, { [key]: {} });
-          mergeDeep(target[key], source[key]);
-        } else {
-          Object.assign(target, { [key]: source[key] });
-        }
-      }
-    }
-
-    return mergeDeep(target, ...sources);
-  }
-
-  var gameData = mergeDeep(gameData, savegame);
-  console.log(gameData);
-  
-}
-// YE POOR LOAD FUNCTION -------------------------------------------------------
+// ONLOAD FUNCTION -------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
   console.log("ready!");
-  // loadTheGame(true);
+  loadTheGame(true);
   document.body.classList.remove('invisible-stuff');
 });

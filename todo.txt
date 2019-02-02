@@ -72,11 +72,15 @@ WHEN I NEED TO I WILL DO THIS- see if I can use arrow functions like a goddamn f
 
 OK- finish implementing meowconomy with a window-long progress bar
 
-- Somehow I broke the loading game. Fix this.
+OK- Somehow I broke the loading game. Fix this.
 . turns out cloning javascript objects is not very straightforward. Hmm.
 . there's no effective storing javascript objects with methods. Unless I turn it all to a string and run eval, but eval is evil
 . SOLUTION: create another function that adds all the methods I need to the gameData whenever it gets loaded. Might also want to add this to an onload, so whenever a new game begins, it adds all the methods to the gameData but I don't need to write the functions twice. 
-- SOLUTION 2: gameData will always exist, but the savedata simply PLACES the values into the object, preserving its structure and methods entirely. This will require some actual javascript fuckery
+. SOLUTION 2: gameData will always exist, but the savedata simply PLACES the values into the object, preserving its structure and methods entirely. This will require some actual javascript fuckery
+. SOLUTION 3: https://github.com/MetenLF/boxgame/issues/3 lets do this one.
+
+- save game is not 100% applying to upgrades and their effects.
+. specifically the annoying box thing. Not a big problem but we gotta fix!
 
 - finish implementing meowpocalypse with another progress bar that supersets the previous one
 . this warrants a small rework of existing stuff to compensate for any faulty logic and progress 
